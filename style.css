@@ -12,11 +12,11 @@
 body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; }
 h1, h2, .logo-text, .page-title { font-family: 'Cormorant Garamond', serif; letter-spacing: 0.02em; }
 
-/* ---------- ШАПКА (GRID: ЛОГО СЛЕВА, ПОИСК ЦЕНТР, МЕНЮ СПРАВА) ---------- */
+/* ---------- ШАПКА ---------- */
 .header {
-  display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
+  display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 16px 32px;
   background: rgba(13,13,15,0.95); 
   backdrop-filter: blur(12px);
@@ -25,22 +25,11 @@ h1, h2, .logo-text, .page-title { font-family: 'Cormorant Garamond', serif; lett
   z-index: 100;
   border-bottom: 1px solid rgba(232,180,184,0.1);
 }
-
-.header-left { display: flex; justify-content: flex-start; }
-.header-center { display: flex; justify-content: center; }
-.header-right { display: flex; justify-content: flex-end; }
+.header-left { display: flex; justify-content: flex-start; flex: 1; }
+.header-right { display: flex; justify-content: flex-end; flex: 1; }
 
 .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
 .logo-text { color: var(--text); font-size: 28px; font-weight: 700; letter-spacing: 0.2em; }
-
-.search-wrap { width: 100%; max-width: 400px; }
-.search-wrap input {
-  background: var(--surface); border: 1px solid rgba(232,180,184,0.15);
-  color: var(--text); padding: 10px 20px; border-radius: 999px;
-  width: 100%; outline: none; transition: border-color .2s, box-shadow .2s; font-size: 14px;
-  text-align: center;
-}
-.search-wrap input:focus { border-color: var(--accent); box-shadow: 0 0 15px rgba(200,16,46,0.2); }
 
 .nav { display: flex; gap: 20px; }
 .nav a { color: var(--muted); text-decoration: none; font-size: 15px; transition: color .2s; }
@@ -52,7 +41,7 @@ h1, h2, .logo-text, .page-title { font-family: 'Cormorant Garamond', serif; lett
 .page.active { display: block; }
 .page-title { font-size: 48px; margin-bottom: 24px; }
 
-/* ---------- БАННЕР (ФОТО ПО БОКАМ) ---------- */
+/* ---------- БАННЕР ---------- */
 .hero-banner {
   position: relative;
   width: 100%;
@@ -65,64 +54,52 @@ h1, h2, .logo-text, .page-title { font-family: 'Cormorant Garamond', serif; lett
   align-items: center;
   justify-content: space-between;
 }
-
-.banner-side {
-  height: 100%;
-  width: 25%;
-  min-width: 200px;
-  position: relative;
-  overflow: hidden;
-  background: #2a1a1f; /* Заглушка, если нет фото */
-}
-.banner-side img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.8;
-  transition: opacity .3s;
-}
+.banner-side { height: 100%; width: 25%; min-width: 200px; position: relative; overflow: hidden; background: #2a1a1f; }
+.banner-side img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: opacity .3s; }
 .banner-side:hover img { opacity: 1; }
+.banner-left { -webkit-mask-image: linear-gradient(to right, black 50%, transparent 100%); mask-image: linear-gradient(to right, black 50%, transparent 100%); }
+.banner-right { -webkit-mask-image: linear-gradient(to left, black 50%, transparent 100%); mask-image: linear-gradient(to left, black 50%, transparent 100%); }
 
-.banner-left { 
-  -webkit-mask-image: linear-gradient(to right, black 50%, transparent 100%);
-  mask-image: linear-gradient(to right, black 50%, transparent 100%);
-}
-.banner-right { 
-  -webkit-mask-image: linear-gradient(to left, black 50%, transparent 100%);
-  mask-image: linear-gradient(to left, black 50%, transparent 100%);
-}
-
-.hero-content {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-  padding: 20px;
-  flex: 1;
-}
-.hero-content h1 {
-  font-size: 72px;
-  margin-bottom: 10px;
-  text-shadow: 0 4px 20px rgba(0,0,0,0.8);
-  letter-spacing: 0.2em;
-}
-.hero-content p {
-  font-size: 18px;
-  color: var(--accent-2);
-  margin-bottom: 24px;
-  letter-spacing: 0.1em;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.8);
-}
-.random-btn {
-  background: var(--accent); border: none; color: #fff;
-  padding: 14px 30px; border-radius: 999px; font-size: 16px; cursor: pointer;
-  transition: all .3s; font-weight: 600;
-}
+.hero-content { position: relative; z-index: 2; text-align: center; padding: 20px; flex: 1; }
+.hero-content h1 { font-size: 72px; margin-bottom: 10px; text-shadow: 0 4px 20px rgba(0,0,0,0.8); letter-spacing: 0.2em; }
+.hero-content p { font-size: 18px; color: var(--accent-2); margin-bottom: 24px; letter-spacing: 0.1em; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
+.random-btn { background: var(--accent); border: none; color: #fff; padding: 14px 30px; border-radius: 999px; font-size: 16px; cursor: pointer; transition: all .3s; font-weight: 600; }
 .random-btn:hover { background: #a00c24; transform: translateY(-2px); box-shadow: 0 8px 25px rgba(200,16,46,0.5); }
 
-/* ---------- ВЕРХНЯЯ ПАНЕЛЬ ---------- */
-.top-controls { display: flex; justify-content: center; gap: 20px; margin-bottom: 30px; flex-wrap: wrap; }
-.categories-btn { background: var(--surface); border: 1px solid rgba(232,180,184,0.3); color: var(--text); padding: 14px 32px; border-radius: 999px; font-size: 16px; cursor: pointer; transition: all .3s; display: flex; align-items: center; gap: 10px; font-weight: 500; }
+/* ---------- КАТЕГОРИИ И ПОИСК ---------- */
+.controls-section { 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  gap: 20px; 
+  margin-bottom: 30px; 
+  flex-wrap: wrap; 
+}
+
+.categories-btn { 
+  background: var(--surface); border: 1px solid rgba(232,180,184,0.3); color: var(--text); 
+  padding: 14px 32px; border-radius: 999px; font-size: 16px; cursor: pointer; 
+  transition: all .3s; display: flex; align-items: center; gap: 10px; font-weight: 500; 
+}
 .categories-btn:hover { background: var(--accent); border-color: var(--accent); box-shadow: 0 8px 25px rgba(200,16,46,0.3); transform: translateY(-2px); }
+
+/* Новый поиск */
+.search-wrap { 
+  flex: 1; 
+  max-width: 400px; 
+}
+.search-wrap input {
+  background: var(--surface); 
+  border: 1px solid rgba(232,180,184,0.15);
+  color: var(--text); 
+  padding: 14px 24px; 
+  border-radius: 999px;
+  width: 100%; 
+  outline: none; 
+  transition: border-color .2s, box-shadow .2s; 
+  font-size: 15px;
+}
+.search-wrap input:focus { border-color: var(--accent); box-shadow: 0 0 15px rgba(200,16,46,0.2); }
 
 /* ---------- ПАНЕЛЬ СОРТИРОВКИ ---------- */
 .sort-panel { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 16px; }
@@ -233,10 +210,6 @@ button:hover { opacity: 0.85; }
 .actors-list li { background: rgba(232,180,184,0.12); color: var(--accent-2); padding: 8px 14px; border-radius: 999px; font-size: 14px; display: flex; align-items: center; gap: 8px; }
 .actors-list li span { cursor: pointer; opacity: 0.6; }
 .actors-list li span:hover { opacity: 1; color: var(--accent); }
-.ratings { display: flex; flex-direction: column; gap: 10px; }
-.rating-row { display: flex; justify-content: space-between; padding: 12px 16px; background: var(--bg); border-radius: 10px; font-size: 14px; }
-.rating-like { color: #4ade80; }
-.rating-dislike { color: var(--accent); }
 .footer { text-align: center; padding: 40px 20px; color: var(--muted); font-size: 13px; border-top: 1px solid rgba(232,180,184,0.08); margin-top: 60px; }
 
 /* ---------- КАСТОМНЫЙ ВИДЕОПЛЕЕР ---------- */
@@ -263,15 +236,15 @@ button:hover { opacity: 0.85; }
 #volumeSlider { width: 80px; cursor: pointer; accent-color: var(--accent); height: 4px; }
 
 @media (max-width: 1000px) {
-  .header { grid-template-columns: 1fr; gap: 12px; padding: 12px 16px; }
-  .header-left, .header-center, .header-right { justify-content: center; }
-  .header-center { order: 3; }
+  .header { padding: 12px 16px; }
   .nav { gap: 15px; font-size: 14px; flex-wrap: wrap; justify-content: center; }
-  .search-wrap { max-width: 100%; }
   
   .banner-side { display: none; } 
   .hero-banner { height: 300px; justify-content: center; }
   .hero-content h1 { font-size: 48px; }
+
+  .controls-section { flex-direction: column; }
+  .search-wrap { max-width: 100%; }
 
   .grid { grid-template-columns: 1fr; }
   .sort-panel { flex-direction: column; align-items: flex-start; }
