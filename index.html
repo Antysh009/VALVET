@@ -22,7 +22,6 @@
       <span class="logo-text">VELVET</span>
     </a>
 
-    <!-- ПОИСК В ЦЕНТРЕ -->
     <div class="search-wrap">
       <input type="text" id="searchInput" placeholder="Поиск видео…" oninput="renderCatalog()">
     </div>
@@ -51,6 +50,48 @@
     </section>
   </main>
 
+  <!-- СТРАНИЦА ВИДЕО (как на YouTube) -->
+  <main id="page-video" class="page">
+    <button class="back-btn" onclick="goBack()">← Назад в каталог</button>
+    
+    <div class="video-layout">
+      <!-- Левая часть: плеер и описание -->
+      <div class="video-main">
+        <div class="player-placeholder">
+          <span>🎬 Здесь будет видеоплеер</span>
+        </div>
+        <h1 id="videoTitle" class="video-title"></h1>
+        
+        <div class="video-meta">
+          <div class="studio-info">
+            <div class="studio-avatar" id="studioAvatar">S</div>
+            <div>
+              <div class="studio-name" id="videoStudio"></div>
+              <div class="video-views">Студия-производитель</div>
+            </div>
+          </div>
+          
+          <div class="video-actions">
+            <button id="videoLikeBtn" class="action-btn" onclick="toggleRatingFromPage('like')">👍 Нравится</button>
+            <button id="videoDislikeBtn" class="action-btn" onclick="toggleRatingFromPage('dislike')">👎 Не нравится</button>
+            <button id="videoFavBtn" class="action-btn" onclick="toggleFavFromPage()">🤍 В избранное</button>
+          </div>
+        </div>
+
+        <div class="video-description-box">
+          <h3>Описание</h3>
+          <p id="videoDesc"></p>
+        </div>
+      </div>
+
+      <!-- Правая часть: актёры -->
+      <div class="video-sidebar">
+        <h3>В ролях</h3>
+        <ul id="videoActorsList" class="actors-sidebar"></ul>
+      </div>
+    </div>
+  </main>
+
   <!-- ИЗБРАННОЕ -->
   <main id="page-favorites" class="page">
     <h1 class="page-title">Избранное</h1>
@@ -61,13 +102,11 @@
   <!-- ПРОФИЛЬ -->
   <main id="page-profile" class="page">
     <h1 class="page-title">Профиль</h1>
-
     <div class="profile-card">
       <div class="avatar" id="avatar">?</div>
       <input type="text" id="username" placeholder="Твоё имя / ник" maxlength="30">
       <button onclick="saveProfile()">Сохранить</button>
     </div>
-
     <div class="profile-block">
       <h2>Любимые актёры</h2>
       <div class="actor-input">
@@ -76,31 +115,11 @@
       </div>
       <ul id="actorsList" class="actors-list"></ul>
     </div>
-
     <div class="profile-block">
       <h2>Твои оценки</h2>
       <div id="ratingsList" class="ratings"></div>
     </div>
   </main>
-
-  <!-- МОДАЛЬНОЕ ОКНО (ПРОСМОТР ВИДЕО) -->
-  <div id="modal" class="modal">
-    <div class="modal-content">
-      <button class="modal-close" onclick="closeModal()">✕</button>
-      <div class="modal-cover" id="modalCover"></div>
-      <div class="modal-body">
-        <h2 id="modalTitle"></h2>
-        <p class="modal-cat" id="modalCat"></p>
-        <p class="modal-desc" id="modalDesc"></p>
-        
-        <div class="modal-actions">
-          <button id="modalLikeBtn" class="action-btn" onclick="rateFromModal('like')">👍 Нравится</button>
-          <button id="modalDislikeBtn" class="action-btn" onclick="rateFromModal('dislike')">👎 Не нравится</button>
-          <button class="action-btn fav-modal-btn" id="modalFavBtn" onclick="favFromModal()">🤍 В избранное</button>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <footer class="footer">
     <p>© 2026 VELVET · 18+ · Витрина. Все видео размещены на сторонних ресурсах.</p>
