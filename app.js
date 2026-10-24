@@ -31,7 +31,7 @@ const store = {
   set(key, val) { localStorage.setItem('velvet_' + key, JSON.stringify(val)); }
 };
 
-let videoViews = store.get('videoViews', {}); // Общие просмотры (сохраняются навсегда)
+let videoViews = store.get('videoViews', {});
 let currentCat = 'Все';
 let favorites   = store.get('favorites', []);
 let profile     = store.get('profile', { name: '', actors: [] });
@@ -176,6 +176,12 @@ function cardHTML(v) {
   const userRating = ratings[v.id] || null;
   const totalViews = v.views + (videoViews[v.id] || 0);
   
+  // Считаем лайки (базовые + если ты нажал, добавляем 1)
+  const currentLikes = v.likes + (userRating === 'like' ? 1 : 0);
+  // Считаем дизлайки (базовые (например 50, чтобы не было 0) + если ты нажал, добавляем 1)
+  const baseDislikes = Math.floor(v.likes * 0.05) + 15; 
+  const currentDislikes = baseDislikes + (userRating === 'dislike' ? 1 : 0);
+
   const coverHTML = v.cover 
     ? `<img src="${v.cover}" alt="${v.title}">` 
     : 'Обложка';
@@ -197,8 +203,12 @@ function cardHTML(v) {
           <span>${timeAgo(v.date)}</span>
         </div>
         <div class="card-actions" onclick="event.stopPropagation()">
-          <button class="action-btn ${userRating === 'like' ? 'active-like' : ''}" onclick="toggleRating(${v.id}, 'like')">👍</button>
-          <button class="action-btn ${userRating === 'dislike' ? 'active-dislike' : ''}" onclick="toggleRating(${v.id}, 'dislike')">👎</button>
+          <button class="action-btn ${userRating === 'like' ? 'active-like' : ''}" onclick="toggleRating(${v.id}, 'like')">
+            👍 ${currentLikes.toLocaleString('ru-RU')}
+          </button>
+          <button class="action-btn ${userRating === 'dislike' ? 'active-dislike' : ''}" onclick="toggleRating(${v.id}, 'dislike')">
+            👎 ${currentDislikes.toLocaleString('ru-RU')}
+          </button>
         </div>
       </div>
     </div>
@@ -214,20 +224,14 @@ function openVideoPage(id) {
   window.location.hash = 'video-' + id;
 
   // --- РЕАЛЬНЫЕ ПРОСМОТРЫ ---
-  // Проверяем, смотрел ли пользователь это видео в текущей сессии (пока открыта вкладка)
   let viewedInSession = JSON.parse(sessionStorage.getItem('velvet_session_views') || '[]');
-  
   if (!viewedInSession.includes(id)) {
-    // Если не смотрел - добавляем просмотр
     videoViews[id] = (videoViews[id] || 0) + 1;
     store.set('videoViews', videoViews);
-    
-    // Запоминаем в сессии, чтобы при обновлении страницы не накручивать
     viewedInSession.push(id);
     sessionStorage.setItem('velvet_session_views', JSON.stringify(viewedInSession));
   }
 
-  // Устанавливаем видео в плеер
   const player = document.getElementById('videoPlayer');
   player.src = v.videoUrl; 
   
@@ -249,7 +253,6 @@ function openVideoPage(id) {
   document.getElementById('videoStudio').textContent = v.studio;
   document.getElementById('studioAvatar').textContent = v.studio.charAt(0).toUpperCase();
   
-  // Показываем обновлённое количество просмотров
   const totalViews = v.views + (videoViews[id] || 0);
   document.getElementById('videoViewsText').textContent = `${totalViews.toLocaleString('ru-RU')} просмотров · ${timeAgo(v.date)}`;
 
@@ -440,14 +443,23 @@ function toggleFav(id) {
 function toggleRatingFromPage(type) { toggleRating(currentVideoId, type); }
 function toggleFavFromPage() { toggleFav(currentVideoId); }
 
+// Обновляем кнопки и на странице видео
 function updateVideoPageButtons() {
   if (!currentVideoId) return;
+  const v = VIDEOS.find(x => x.id === currentVideoId);
   const isFav = favorites.includes(currentVideoId);
   const userRating = ratings[currentVideoId] || null;
+
+  const currentLikes = v.likes + (userRating === 'like' ? 1 : 0);
+  const baseDislikes = Math.floor(v.likes * 0.05) + 15;
+  const currentDislikes = baseDislikes + (userRating === 'dislike' ? 1 : 0);
 
   document.getElementById('videoLikeBtn').className = 'action-btn ' + (userRating === 'like' ? 'active-like' : '');
   document.getElementById('videoDislikeBtn').className = 'action-btn ' + (userRating === 'dislike' ? 'active-dislike' : '');
   document.getElementById('videoFavBtn').className = 'action-btn ' + (isFav ? 'active-fav' : '');
+  
+  document.getElementById('videoLikeBtn').innerHTML = `👍 Нравится (${currentLikes.toLocaleString('ru-RU')})`;
+  document.getElementById('videoDislikeBtn').innerHTML = `👎 Не нравится (${currentDislikes.toLocaleString('ru-RU')})`;
   document.getElementById('videoFavBtn').textContent = isFav ? '❤️ В избранном' : '🤍 В избранное';
 }
 
