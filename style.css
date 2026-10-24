@@ -29,18 +29,73 @@ h1, h2, .logo-text, .page-title { font-family: 'Cormorant Garamond', serif; lett
 .page.active { display: block; }
 .page-title { font-size: 48px; margin-bottom: 24px; }
 
-/* ---------- БАННЕР ---------- */
-.hero-banner { position: relative; width: 100%; height: 400px; border-radius: 20px; overflow: hidden; margin-bottom: 30px; background: linear-gradient(to right, #1A1A1F, #2a1a1f, #1A1A1F); display: flex; align-items: center; justify-content: space-between; }
-.banner-side { height: 100%; width: 25%; min-width: 200px; position: relative; overflow: hidden; background: #2a1a1f; }
-.banner-side img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: opacity .3s; }
-.banner-side:hover img { opacity: 1; }
-.banner-left { -webkit-mask-image: linear-gradient(to right, black 50%, transparent 100%); mask-image: linear-gradient(to right, black 50%, transparent 100%); }
-.banner-right { -webkit-mask-image: linear-gradient(to left, black 50%, transparent 100%); mask-image: linear-gradient(to left, black 50%, transparent 100%); }
-.hero-content { position: relative; z-index: 2; text-align: center; padding: 20px; flex: 1; }
-.hero-content h1 { font-size: 72px; margin-bottom: 10px; text-shadow: 0 4px 20px rgba(0,0,0,0.8); letter-spacing: 0.2em; }
-.hero-content p { font-size: 18px; color: var(--accent-2); margin-bottom: 24px; letter-spacing: 0.1em; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
-.random-btn { background: var(--accent); border: none; color: #fff; padding: 14px 30px; border-radius: 999px; font-size: 16px; cursor: pointer; transition: all .3s; font-weight: 600; }
-.random-btn:hover { background: #a00c24; transform: translateY(-2px); box-shadow: 0 8px 25px rgba(200,16,46,0.5); }
+/* ---------- БАННЕР (ФОН С ТВОЕЙ КАРТИНКОЙ) ---------- */
+.hero-banner {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 30px;
+  
+  /* Твоя картинка на фоне */
+  background-image: url('https://image.fonwall.ru/o/fo/girls-underwear-sight.jpeg?auto=compress&fit=crop&w=1920&h=1080&domain=img3.fonwall.ru');
+  background-size: cover;
+  background-position: center 25%; /* Центрируем так, чтобы было видно самое интересное */
+  background-color: #2a1a1f; /* Запасной цвет, если картинка не загрузится */
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Затемнение, чтобы текст читался */
+.hero-banner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(13,13,15,0.95) 0%, rgba(13,13,15,0.3) 100%);
+}
+
+/* Убираем боковые блоки, так как теперь картинка на фоне */
+.banner-side { display: none; }
+
+.hero-content { 
+  position: relative; 
+  z-index: 2; 
+  text-align: center; 
+  padding: 20px; 
+  flex: 1; 
+}
+.hero-content h1 { 
+  font-size: 72px; 
+  margin-bottom: 10px; 
+  text-shadow: 0 4px 20px rgba(0,0,0,0.9); 
+  letter-spacing: 0.2em; 
+}
+.hero-content p { 
+  font-size: 18px; 
+  color: var(--accent-2); 
+  margin-bottom: 24px; 
+  letter-spacing: 0.1em; 
+  text-shadow: 0 2px 10px rgba(0,0,0,0.9); 
+}
+.random-btn { 
+  background: var(--accent); 
+  border: none; 
+  color: #fff; 
+  padding: 14px 30px; 
+  border-radius: 999px; 
+  font-size: 16px; 
+  cursor: pointer; 
+  transition: all .3s; 
+  font-weight: 600; 
+}
+.random-btn:hover { 
+  background: #a00c24; 
+  transform: translateY(-2px); 
+  box-shadow: 0 8px 25px rgba(200,16,46,0.5); 
+}
 
 /* ---------- КАТЕГОРИИ И ПОИСК ---------- */
 .controls-section { display: flex; flex-direction: column; align-items: center; gap: 16px; margin-bottom: 40px; }
@@ -183,29 +238,10 @@ button:hover { opacity: 0.85; }
 .volume-wrap { display: flex; align-items: center; gap: 5px; }
 #volumeSlider { width: 80px; cursor: pointer; accent-color: var(--accent); height: 4px; }
 
-/* ========================================================= */
-/* ---------- ЭКРАН 18+ (ВОЗРАСТНОЙ БАРЬЕР) ---------- */
-/* ========================================================= */
-.age-gate {
-  position: fixed;
-  top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(13,13,15,0.98);
-  backdrop-filter: blur(15px);
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
+/* ---------- ЭКРАН 18+ ---------- */
+.age-gate { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(13,13,15,0.98); backdrop-filter: blur(15px); z-index: 9999; display: flex; align-items: center; justify-content: center; text-align: center; }
 .age-gate.hidden { display: none; }
-.age-gate-content {
-  max-width: 500px;
-  padding: 40px;
-  background: var(--surface);
-  border-radius: 20px;
-  border: 1px solid rgba(232,180,184,0.2);
-  box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-}
+.age-gate-content { max-width: 500px; padding: 40px; background: var(--surface); border-radius: 20px; border: 1px solid rgba(232,180,184,0.2); box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
 .age-title { font-size: 64px; margin-bottom: 10px; color: var(--accent); letter-spacing: 0.2em; }
 .age-subtitle { font-size: 18px; color: var(--text); margin-bottom: 30px; }
 .age-buttons { display: flex; gap: 15px; justify-content: center; }
@@ -217,8 +253,7 @@ button:hover { opacity: 0.85; }
 @media (max-width: 1000px) {
   .header { padding: 12px 16px; }
   .nav { gap: 15px; font-size: 14px; flex-wrap: wrap; justify-content: center; }
-  .banner-side { display: none; } 
-  .hero-banner { height: 300px; justify-content: center; }
+  .hero-banner { height: 300px; }
   .hero-content h1 { font-size: 48px; }
   .grid { grid-template-columns: 1fr; }
   .sort-panel { flex-direction: column; align-items: flex-start; }
