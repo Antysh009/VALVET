@@ -1,4 +1,4 @@
-// ---------- ДАННЫЕ (добавлено поле cover) ----------
+// ---------- ДАННЫЕ ----------
 const VIDEOS = [
   { id: 1, title: 'Полночный бархат', cat: 'Романтика', studio: 'Velvet Studio', actors: ['Анна С.', 'Дмитрий К.'], desc: 'Изысканная история о тайной встрече.', date: '2026-10-25', views: 15000, likes: 1200, duration: '15:20', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', cover: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80' },
   { id: 2, title: 'Красный шёлк', cat: 'Романтика', studio: 'Red Light Films', actors: ['Елена В.', 'Максим Р.'], desc: 'Страсть, которая вспыхивает с первого касания.', date: '2026-10-24', views: 25000, likes: 3400, duration: '22:15', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', cover: 'https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=800&q=80' },
@@ -14,7 +14,6 @@ const VIDEOS = [
   { id: 12, title: 'Взгляд', cat: 'Классика', studio: 'Paris Nuit', actors: ['Изабель К.', 'Луи М.'], desc: 'Встреча, которая меняет всё.', date: '2024-11-05', views: 2000000, likes: 180000, duration: '14:15', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', cover: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=800&q=80' },
 ];
 
-// Ссылки на картинки для категорий (можешь заменить на свои)
 const CATEGORY_IMAGES = {
   'Романтика': 'https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=600&q=80',
   'Драма': 'https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=600&q=80',
@@ -32,7 +31,7 @@ const store = {
   set(key, val) { localStorage.setItem('velvet_' + key, JSON.stringify(val)); }
 };
 
-let videoViews = store.get('videoViews', {});
+let videoViews = store.get('videoViews', {}); // Общие просмотры (сохраняются навсегда)
 let currentCat = 'Все';
 let favorites   = store.get('favorites', []);
 let profile     = store.get('profile', { name: '', actors: [] });
@@ -177,7 +176,6 @@ function cardHTML(v) {
   const userRating = ratings[v.id] || null;
   const totalViews = v.views + (videoViews[v.id] || 0);
   
-  // Если картинка есть - выводим img, если нет - текст "Обложка"
   const coverHTML = v.cover 
     ? `<img src="${v.cover}" alt="${v.title}">` 
     : 'Обложка';
@@ -215,14 +213,24 @@ function openVideoPage(id) {
   currentVideoId = id;
   window.location.hash = 'video-' + id;
 
-  videoViews[id] = (videoViews[id] || 0) + 1;
-  store.set('videoViews', videoViews);
+  // --- РЕАЛЬНЫЕ ПРОСМОТРЫ ---
+  // Проверяем, смотрел ли пользователь это видео в текущей сессии (пока открыта вкладка)
+  let viewedInSession = JSON.parse(sessionStorage.getItem('velvet_session_views') || '[]');
+  
+  if (!viewedInSession.includes(id)) {
+    // Если не смотрел - добавляем просмотр
+    videoViews[id] = (videoViews[id] || 0) + 1;
+    store.set('videoViews', videoViews);
+    
+    // Запоминаем в сессии, чтобы при обновлении страницы не накручивать
+    viewedInSession.push(id);
+    sessionStorage.setItem('velvet_session_views', JSON.stringify(viewedInSession));
+  }
 
   // Устанавливаем видео в плеер
   const player = document.getElementById('videoPlayer');
   player.src = v.videoUrl; 
   
-  // Ставим постером обложку видео, если она есть
   if (v.cover) {
     player.poster = v.cover;
   } else {
@@ -241,6 +249,7 @@ function openVideoPage(id) {
   document.getElementById('videoStudio').textContent = v.studio;
   document.getElementById('studioAvatar').textContent = v.studio.charAt(0).toUpperCase();
   
+  // Показываем обновлённое количество просмотров
   const totalViews = v.views + (videoViews[id] || 0);
   document.getElementById('videoViewsText').textContent = `${totalViews.toLocaleString('ru-RU')} просмотров · ${timeAgo(v.date)}`;
 
