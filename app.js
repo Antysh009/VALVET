@@ -42,6 +42,22 @@ let currentVideoId = null;
 let sortMode = 'all'; 
 let timeFilter = 'all';
 
+// ---------- ЭКРАН 18+ ----------
+function enterSite() {
+  document.getElementById('ageGate').classList.add('hidden');
+  localStorage.setItem('velvet_age_verified', 'true');
+}
+
+function leaveSite() {
+  window.location.href = 'https://www.google.com';
+}
+
+// Проверяем, заходил ли пользователь раньше
+if (localStorage.getItem('velvet_age_verified') === 'true') {
+  const gate = document.getElementById('ageGate');
+  if (gate) gate.classList.add('hidden');
+}
+
 // ---------- ВРЕМЯ ВЫХОДА ----------
 function timeAgo(dateStr) {
   const date = new Date(dateStr);
@@ -479,7 +495,7 @@ function playRandom() {
   openVideoPage(VIDEOS[randomIndex].id);
 }
 
-// ---------- ПРОФИЛЬ (ОБНОВЛЕННЫЙ) ----------
+// ---------- ПРОФИЛЬ ----------
 function renderProfile() {
   document.getElementById('username').value = profile.name || '';
   document.getElementById('avatar').textContent = (profile.name || '?').charAt(0).toUpperCase();
@@ -489,7 +505,6 @@ function renderProfile() {
     `<li>${a} <span onclick="removeActor(${i})">✕</span></li>`
   ).join('');
 
-  // Отрисовка оценок в виде карточек
   const ratingsGrid = document.getElementById('ratingsGrid');
   const ratingsEmpty = document.getElementById('ratingsEmpty');
   const ratedVideoIds = Object.keys(ratings).map(id => parseInt(id));
