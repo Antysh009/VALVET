@@ -10,15 +10,9 @@
 </head>
 <body>
 
-  <!-- ШАПКА -->
+  <!-- ШАПКА (Лого слева, Поиск по центру, Меню справа) -->
   <header class="header">
     <div class="header-left">
-      <div class="search-wrap">
-        <input type="text" id="searchInput" placeholder="Поиск видео…" oninput="renderCatalog()">
-      </div>
-    </div>
-
-    <div class="header-center">
       <a href="#" class="logo" onclick="showPage('home'); return false;">
         <svg class="logo-mark" viewBox="0 0 48 48" width="40" height="40">
           <circle cx="24" cy="24" r="22" fill="none" stroke="var(--accent)" stroke-width="2"/>
@@ -26,6 +20,12 @@
         </svg>
         <span class="logo-text">VELVET</span>
       </a>
+    </div>
+
+    <div class="header-center">
+      <div class="search-wrap">
+        <input type="text" id="searchInput" placeholder="Поиск видео…" oninput="renderCatalog()">
+      </div>
     </div>
 
     <div class="header-right">
@@ -39,10 +39,9 @@
 
   <main id="page-home" class="page active">
     
-    <!-- НОВЫЙ БАННЕР С КАРТИНКАМИ ПО БОКАМ -->
+    <!-- БАННЕР С КАРТИНКАМИ ПО БОКАМ -->
     <section class="hero-banner">
       <div class="banner-side banner-left">
-        <!-- Сюда встанет левая картинка (left.jpg) -->
         <img src="left.jpg" alt="Left Model" onerror="this.style.display='none'">
       </div>
       
@@ -53,7 +52,6 @@
       </div>
 
       <div class="banner-side banner-right">
-        <!-- Сюда встанет правая картинка (right.jpg) -->
         <img src="right.jpg" alt="Right Model" onerror="this.style.display='none'">
       </div>
     </section>
@@ -104,7 +102,7 @@
       <div class="video-main">
         
         <div class="custom-player" id="playerContainer">
-          <video id="videoPlayer" poster="https://via.placeholder.com/1280x720/1A1A1F/C8102E?text=VELVET">
+          <video id="videoPlayer" poster="https://picsum.photos/1280/720?grayscale">
             Ваш браузер не поддерживает видео.
           </video>
           <div class="center-play-btn" id="centerPlayBtn" onclick="togglePlay()">▶</div>
