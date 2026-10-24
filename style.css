@@ -13,35 +13,13 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-ser
 h1, h2, .logo-text, .page-title { font-family: 'Cormorant Garamond', serif; letter-spacing: 0.02em; }
 
 /* ---------- ШАПКА ---------- */
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 32px;
-  background: rgba(13,13,15,0.95); 
-  backdrop-filter: blur(12px);
-  position: sticky; 
-  top: 0; 
-  z-index: 100;
-  border-bottom: 1px solid rgba(232,180,184,0.1);
-}
+.header { display: flex; align-items: center; justify-content: space-between; padding: 16px 32px; background: rgba(13,13,15,0.95); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgba(232,180,184,0.1); }
 .header-left { display: flex; justify-content: flex-start; flex: 1; }
 .header-right { display: flex; justify-content: flex-end; flex: 1; }
-
 .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
 .logo-text { color: var(--text); font-size: 28px; font-weight: 700; letter-spacing: 0.2em; }
-
-/* Навигация с иконками */
 .nav { display: flex; gap: 24px; }
-.nav a { 
-  color: var(--muted); 
-  text-decoration: none; 
-  font-size: 15px; 
-  transition: color .2s; 
-  display: flex; 
-  align-items: center; 
-  gap: 8px; 
-}
+.nav a { color: var(--muted); text-decoration: none; font-size: 15px; transition: color .2s; display: flex; align-items: center; gap: 8px; }
 .nav a:hover { color: var(--accent-2); }
 .nav a svg { width: 20px; height: 20px; }
 .badge { background: var(--accent); color: #fff; font-size: 11px; padding: 2px 7px; border-radius: 10px; margin-left: 4px; }
@@ -52,24 +30,12 @@ h1, h2, .logo-text, .page-title { font-family: 'Cormorant Garamond', serif; lett
 .page-title { font-size: 48px; margin-bottom: 24px; }
 
 /* ---------- БАННЕР ---------- */
-.hero-banner {
-  position: relative;
-  width: 100%;
-  height: 400px;
-  border-radius: 20px;
-  overflow: hidden;
-  margin-bottom: 30px;
-  background: linear-gradient(to right, #1A1A1F, #2a1a1f, #1A1A1F);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
+.hero-banner { position: relative; width: 100%; height: 400px; border-radius: 20px; overflow: hidden; margin-bottom: 30px; background: linear-gradient(to right, #1A1A1F, #2a1a1f, #1A1A1F); display: flex; align-items: center; justify-content: space-between; }
 .banner-side { height: 100%; width: 25%; min-width: 200px; position: relative; overflow: hidden; background: #2a1a1f; }
 .banner-side img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: opacity .3s; }
 .banner-side:hover img { opacity: 1; }
 .banner-left { -webkit-mask-image: linear-gradient(to right, black 50%, transparent 100%); mask-image: linear-gradient(to right, black 50%, transparent 100%); }
 .banner-right { -webkit-mask-image: linear-gradient(to left, black 50%, transparent 100%); mask-image: linear-gradient(to left, black 50%, transparent 100%); }
-
 .hero-content { position: relative; z-index: 2; text-align: center; padding: 20px; flex: 1; }
 .hero-content h1 { font-size: 72px; margin-bottom: 10px; text-shadow: 0 4px 20px rgba(0,0,0,0.8); letter-spacing: 0.2em; }
 .hero-content p { font-size: 18px; color: var(--accent-2); margin-bottom: 24px; letter-spacing: 0.1em; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
@@ -77,38 +43,11 @@ h1, h2, .logo-text, .page-title { font-family: 'Cormorant Garamond', serif; lett
 .random-btn:hover { background: #a00c24; transform: translateY(-2px); box-shadow: 0 8px 25px rgba(200,16,46,0.5); }
 
 /* ---------- КАТЕГОРИИ И ПОИСК ---------- */
-.controls-section { 
-  display: flex; 
-  flex-direction: column; 
-  align-items: center; 
-  gap: 16px; 
-  margin-bottom: 40px; 
-}
-
-.categories-btn { 
-  background: var(--surface); border: 1px solid rgba(232,180,184,0.3); color: var(--text); 
-  padding: 14px 40px; border-radius: 999px; font-size: 16px; cursor: pointer; 
-  transition: all .3s; display: flex; align-items: center; gap: 10px; font-weight: 500; 
-}
+.controls-section { display: flex; flex-direction: column; align-items: center; gap: 16px; margin-bottom: 40px; }
+.categories-btn { background: var(--surface); border: 1px solid rgba(232,180,184,0.3); color: var(--text); padding: 14px 40px; border-radius: 999px; font-size: 16px; cursor: pointer; transition: all .3s; display: flex; align-items: center; gap: 10px; font-weight: 500; }
 .categories-btn:hover { background: var(--accent); border-color: var(--accent); box-shadow: 0 8px 25px rgba(200,16,46,0.3); transform: translateY(-2px); }
-
-/* Широкий поиск под кнопкой */
-.search-wrap { 
-  width: 100%; 
-  max-width: 600px; 
-}
-.search-wrap input {
-  background: var(--surface); 
-  border: 1px solid rgba(232,180,184,0.15);
-  color: var(--text); 
-  padding: 16px 24px; 
-  border-radius: 999px;
-  width: 100%; 
-  outline: none; 
-  transition: border-color .2s, box-shadow .2s; 
-  font-size: 16px;
-  text-align: center;
-}
+.search-wrap { width: 100%; max-width: 600px; }
+.search-wrap input { background: var(--surface); border: 1px solid rgba(232,180,184,0.15); color: var(--text); padding: 16px 24px; border-radius: 999px; width: 100%; outline: none; transition: border-color .2s, box-shadow .2s; font-size: 16px; text-align: center; }
 .search-wrap input:focus { border-color: var(--accent); box-shadow: 0 0 15px rgba(200,16,46,0.2); }
 
 /* ---------- ПАНЕЛЬ СОРТИРОВКИ ---------- */
@@ -118,7 +57,6 @@ h1, h2, .logo-text, .page-title { font-family: 'Cormorant Garamond', serif; lett
 .sort-tab:hover { color: var(--text); }
 .sort-tab.active { color: var(--text); }
 .sort-tab.active::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background: var(--accent); }
-
 .time-dropdown { position: relative; }
 .dropdown-btn { background: var(--surface); border: 1px solid rgba(232,180,184,0.15); color: var(--text); padding: 10px 16px; border-radius: 10px; cursor: pointer; font-size: 14px; display: flex; align-items: center; gap: 8px; }
 .dropdown-btn:hover { border-color: var(--accent-2); }
@@ -131,23 +69,19 @@ h1, h2, .logo-text, .page-title { font-family: 'Cormorant Garamond', serif; lett
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
 .card { background: var(--surface); border-radius: 14px; overflow: hidden; cursor: pointer; transition: transform .2s, box-shadow .2s; display: flex; flex-direction: column; }
 .card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(200,16,46,0.25); }
-
 .card-cover { width: 100%; aspect-ratio: 16/9; background: linear-gradient(135deg, #2a1a1f, #1a0f13); display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 14px; position: relative; overflow: hidden; }
 .card-cover img { width: 100%; height: 100%; object-fit: cover; transition: transform .3s; }
 .card:hover .card-cover img { transform: scale(1.05); }
-
 .card-body { padding: 16px; flex: 1; display: flex; flex-direction: column; }
 .card-title { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
 .card-cat { font-size: 13px; color: var(--accent-2); margin-bottom: 8px; }
 .card-meta { font-size: 12px; color: var(--muted); margin-bottom: 12px; display: flex; gap: 10px; }
 .card-actions { display: flex; gap: 8px; margin-top: auto; }
-
 .action-btn { background: var(--bg); border: 1px solid rgba(232,180,184,0.1); color: var(--muted); padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 13px; transition: all .2s; display: flex; align-items: center; gap: 6px; }
 .action-btn:hover { background: rgba(232,180,184,0.1); color: var(--text); }
 .action-btn.active-like { color: #4ade80; border-color: #4ade80; }
 .action-btn.active-dislike { color: var(--accent); border-color: var(--accent); }
 .action-btn.active-fav { color: var(--accent-2); border-color: var(--accent-2); }
-
 .fav-btn-float { position: absolute; top: 10px; right: 10px; background: rgba(13,13,15,0.7); border: none; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background .2s; z-index: 2; }
 .fav-btn-float:hover { background: var(--accent); }
 .duration-badge { position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.8); color: #fff; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: 600; z-index: 2; }
@@ -175,7 +109,6 @@ h1, h2, .logo-text, .page-title { font-family: 'Cormorant Garamond', serif; lett
 .back-btn:hover { color: var(--text); }
 .video-layout { display: grid; grid-template-columns: 1fr 300px; gap: 30px; }
 @media (max-width: 900px) { .video-layout { grid-template-columns: 1fr; } }
-
 .video-title { font-size: 36px; margin-bottom: 8px; }
 .video-meta { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; padding-bottom: 20px; border-bottom: 1px solid rgba(232,180,184,0.1); margin-bottom: 20px; }
 .studio-info { display: flex; align-items: center; gap: 12px; }
@@ -220,7 +153,12 @@ button:hover { opacity: 0.85; }
 .actors-list li { background: rgba(232,180,184,0.12); color: var(--accent-2); padding: 8px 14px; border-radius: 999px; font-size: 14px; display: flex; align-items: center; gap: 8px; }
 .actors-list li span { cursor: pointer; opacity: 0.6; }
 .actors-list li span:hover { opacity: 1; color: var(--accent); }
+
+/* ---------- ПОДВАЛ ---------- */
 .footer { text-align: center; padding: 40px 20px; color: var(--muted); font-size: 13px; border-top: 1px solid rgba(232,180,184,0.08); margin-top: 60px; }
+.footer-links { margin-top: 15px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+.footer-links a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
+.footer-links a:hover { color: var(--accent-2); }
 
 /* ---------- КАСТОМНЫЙ ВИДЕОПЛЕЕР ---------- */
 .custom-player { position: relative; width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 16px; overflow: hidden; margin-bottom: 20px; border: 1px solid rgba(232,180,184,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
@@ -245,14 +183,43 @@ button:hover { opacity: 0.85; }
 .volume-wrap { display: flex; align-items: center; gap: 5px; }
 #volumeSlider { width: 80px; cursor: pointer; accent-color: var(--accent); height: 4px; }
 
+/* ========================================================= */
+/* ---------- ЭКРАН 18+ (ВОЗРАСТНОЙ БАРЬЕР) ---------- */
+/* ========================================================= */
+.age-gate {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(13,13,15,0.98);
+  backdrop-filter: blur(15px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.age-gate.hidden { display: none; }
+.age-gate-content {
+  max-width: 500px;
+  padding: 40px;
+  background: var(--surface);
+  border-radius: 20px;
+  border: 1px solid rgba(232,180,184,0.2);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+}
+.age-title { font-size: 64px; margin-bottom: 10px; color: var(--accent); letter-spacing: 0.2em; }
+.age-subtitle { font-size: 18px; color: var(--text); margin-bottom: 30px; }
+.age-buttons { display: flex; gap: 15px; justify-content: center; }
+.age-btn-yes { background: var(--accent); color: #fff; padding: 15px 30px; border-radius: 999px; font-size: 16px; font-weight: 600; border: none; cursor: pointer; transition: all .3s; }
+.age-btn-yes:hover { background: #a00c24; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(200,16,46,0.5); }
+.age-btn-no { background: transparent; color: var(--muted); border: 1px solid rgba(232,180,184,0.2); padding: 15px 30px; border-radius: 999px; font-size: 16px; cursor: pointer; transition: all .3s; }
+.age-btn-no:hover { border-color: var(--text); color: var(--text); }
+
 @media (max-width: 1000px) {
   .header { padding: 12px 16px; }
   .nav { gap: 15px; font-size: 14px; flex-wrap: wrap; justify-content: center; }
-  
   .banner-side { display: none; } 
   .hero-banner { height: 300px; justify-content: center; }
   .hero-content h1 { font-size: 48px; }
-
   .grid { grid-template-columns: 1fr; }
   .sort-panel { flex-direction: column; align-items: flex-start; }
   .sort-tab { font-size: 18px; }
@@ -263,4 +230,5 @@ button:hover { opacity: 0.85; }
   .center-play-btn { width: 60px; height: 60px; font-size: 24px; }
   .control-btn { font-size: 14px; }
   #volumeSlider { width: 50px; }
+  .age-buttons { flex-direction: column; }
 }
