@@ -72,17 +72,51 @@
     </div>
   </div>
 
-  <!-- СТРАНИЦА ВИДЕО -->
   <main id="page-video" class="page">
     <button class="back-btn" onclick="goBack()">← Назад в каталог</button>
     <div class="video-layout">
       <div class="video-main">
-        <!-- НАСТОЯЩИЙ ВИДЕОПЛЕЕР -->
-        <div class="player-wrapper">
-          <video id="videoPlayer" class="video-player" controls poster="https://via.placeholder.com/1280x720/1A1A1F/C8102E?text=VELVET">
+        
+        <!-- КАСТОМНЫЙ ВИДЕОПЛЕЕР -->
+        <div class="custom-player" id="playerContainer">
+          <video id="videoPlayer" poster="https://via.placeholder.com/1280x720/1A1A1F/C8102E?text=VELVET">
             Ваш браузер не поддерживает видео.
           </video>
+          
+          <!-- Большая кнопка Play по центру (появляется на паузе) -->
+          <div class="center-play-btn" id="centerPlayBtn" onclick="togglePlay()">
+            ▶
+          </div>
+
+          <!-- Панель управления -->
+          <div class="player-controls" id="playerControls">
+            <div class="progress-bar-wrap" onclick="seekVideo(event)">
+              <div class="progress-bg">
+                <div class="progress-fill" id="progressFill"></div>
+              </div>
+            </div>
+            
+            <div class="controls-row">
+              <div class="controls-left">
+                <button class="control-btn" onclick="togglePlay()" id="playPauseBtn">▶</button>
+                <button class="control-btn" onclick="skipTime(-10)">⏪ 10с</button>
+                <button class="control-btn" onclick="skipTime(10)">10с ⏩</button>
+                
+                <div class="volume-wrap">
+                  <button class="control-btn" onclick="toggleMute()" id="muteBtn">🔊</button>
+                  <input type="range" id="volumeSlider" min="0" max="1" step="0.05" value="1" oninput="changeVolume(this.value)">
+                </div>
+                
+                <span class="time-display"><span id="currentTime">0:00</span> / <span id="totalTime">0:00</span></span>
+              </div>
+              
+              <div class="controls-right">
+                <button class="control-btn" onclick="toggleFullscreen()" id="fullscreenBtn">⛶</button>
+              </div>
+            </div>
+          </div>
         </div>
+        <!-- КОНЕЦ ПЛЕЕРА -->
         
         <h1 id="videoTitle" class="video-title"></h1>
         <div class="video-meta">
