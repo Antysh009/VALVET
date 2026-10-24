@@ -10,7 +10,7 @@
 </head>
 <body>
 
-  <!-- ШАПКА С ЛОГОТИПОМ ПО ЦЕНТРУ -->
+  <!-- ШАПКА -->
   <header class="header">
     <div class="header-left">
       <div class="search-wrap">
@@ -39,12 +39,22 @@
 
   <main id="page-home" class="page active">
     
-    <!-- БАННЕР С КАРТИНКОЙ -->
+    <!-- НОВЫЙ БАННЕР С КАРТИНКАМИ ПО БОКАМ -->
     <section class="hero-banner">
+      <div class="banner-side banner-left">
+        <!-- Сюда встанет левая картинка (left.jpg) -->
+        <img src="left.jpg" alt="Left Model" onerror="this.style.display='none'">
+      </div>
+      
       <div class="hero-content">
         <h1>VELVET</h1>
         <p>Эстетика ночи. Кино для взрослых.</p>
         <button class="random-btn" onclick="playRandom()">🎲 Случайное видео</button>
+      </div>
+
+      <div class="banner-side banner-right">
+        <!-- Сюда встанет правая картинка (right.jpg) -->
+        <img src="right.jpg" alt="Right Model" onerror="this.style.display='none'">
       </div>
     </section>
 
