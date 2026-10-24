@@ -25,63 +25,69 @@
 
     <nav class="nav">
       <a href="#" onclick="showPage('home'); return false;">Главная</a>
-      <a href="#" onclick="showPage('top'); return false;">Лучшее</a>
-      <a href="#" onclick="showPage('views'); return false;">Просматриваемое</a>
       <a href="#" onclick="showPage('favorites'); return false;">Избранное <span id="favCount" class="badge">0</span></a>
       <a href="#" onclick="showPage('profile'); return false;">Профиль</a>
     </nav>
   </header>
 
   <main id="page-home" class="page active">
-    <section class="hero">
-      <h1>Ночь начинается здесь</h1>
-      <p>Отборное кино для взрослых. Только для 18+</p>
+    
+    <!-- НОВЫЙ БЛОК СВЕРХУ (вместо заголовка) -->
+    <section class="top-controls">
       <button class="random-btn" onclick="playRandom()">🎲 Случайное видео</button>
+      <button class="categories-btn" onclick="openCategoriesModal()">
+        <span>🗂️ Категории</span>
+      </button>
     </section>
-    <section class="categories" id="categories"></section>
+
+    <!-- ПАНЕЛЬ СОРТИРОВКИ -->
+    <section class="sort-panel">
+      <div class="sort-tabs">
+        <button id="tab-all" class="sort-tab active" onclick="setSortMode('all')">Все видео</button>
+        <button id="tab-top" class="sort-tab" onclick="setSortMode('top')">Лучшее</button>
+        <button id="tab-views" class="sort-tab" onclick="setSortMode('views')">Просматриваемое</button>
+      </div>
+
+      <div class="time-dropdown" id="timeDropdown" style="display: none;">
+        <button class="dropdown-btn" onclick="toggleDropdown()">
+          <span id="timeLabel">За всё время</span> ▼
+        </button>
+        <div class="dropdown-content" id="dropdownContent">
+          <a href="#" onclick="setTimeFilter('all'); return false;">За всё время</a>
+          <a href="#" onclick="setTimeFilter('month'); return false;">За месяц</a>
+          <a href="#" onclick="setTimeFilter('week'); return false;">За неделю</a>
+          <a href="#" onclick="setTimeFilter('today'); return false;">За сегодня</a>
+        </div>
+      </div>
+    </section>
+
     <section class="catalog">
-      <h2 id="catalogTitle">Все видео</h2>
       <div class="grid" id="grid"></div>
       <p id="emptyMsg" class="empty" style="display:none;">Ничего не найдено 🥲</p>
     </section>
   </main>
 
-  <main id="page-top" class="page">
-    <h1 class="page-title">Лучшее</h1>
-    <div class="time-filters" id="topFilters">
-      <button class="filter-btn active" onclick="setTopTime('all')">За всё время</button>
-      <button class="filter-btn" onclick="setTopTime('month')">За месяц</button>
-      <button class="filter-btn" onclick="setTopTime('week')">За неделю</button>
-      <button class="filter-btn" onclick="setTopTime('today')">За сегодня</button>
+  <!-- МОДАЛЬНОЕ ОКНО ВЫБОРА КАТЕГОРИЙ -->
+  <div id="categoriesModal" class="modal">
+    <div class="modal-content categories-modal-content">
+      <button class="modal-close" onclick="closeCategoriesModal()">✕</button>
+      <h2 class="modal-title">Категории</h2>
+      <div class="cat-grid-modal" id="catGridModal">
+        <!-- Карточки категорий будут генерироваться через JS -->
+      </div>
     </div>
-    <div class="grid" id="topGrid"></div>
-  </main>
-
-  <main id="page-views" class="page">
-    <h1 class="page-title">Просматриваемое</h1>
-    <div class="time-filters" id="viewsFilters">
-      <button class="filter-btn active" onclick="setViewsTime('all')">За всё время</button>
-      <button class="filter-btn" onclick="setViewsTime('month')">За месяц</button>
-      <button class="filter-btn" onclick="setViewsTime('week')">За неделю</button>
-      <button class="filter-btn" onclick="setViewsTime('today')">За сегодня</button>
-    </div>
-    <div class="grid" id="viewsGrid"></div>
-  </main>
+  </div>
 
   <!-- СТРАНИЦА ВИДЕО -->
   <main id="page-video" class="page">
     <button class="back-btn" onclick="goBack()">← Назад в каталог</button>
-    
     <div class="video-layout">
       <div class="video-main">
-        <!-- Плеер с бейджем времени -->
         <div class="player-placeholder">
           <span>🎬 Здесь будет видеоплеер</span>
           <div class="duration-badge" id="videoDuration">12:00</div>
         </div>
-        
         <h1 id="videoTitle" class="video-title"></h1>
-        
         <div class="video-meta">
           <div class="studio-info">
             <div class="studio-avatar" id="studioAvatar">S</div>
@@ -96,13 +102,10 @@
             <button id="videoFavBtn" class="action-btn" onclick="toggleFavFromPage()">🤍 В избранное</button>
           </div>
         </div>
-
         <div class="video-description-box">
           <h3>Описание</h3>
           <p id="videoDesc"></p>
         </div>
-
-        <!-- КОММЕНТАРИИ -->
         <div class="comments-section">
           <h3 id="commentsTitle">Комментарии (0)</h3>
           <div class="comment-input-wrap">
@@ -111,21 +114,16 @@
           </div>
           <div id="commentsList" class="comments-list"></div>
         </div>
-
       </div>
-
       <div class="video-sidebar">
         <h3>В ролях</h3>
         <ul id="videoActorsList" class="actors-sidebar"></ul>
       </div>
     </div>
-
-    <!-- ПОХОЖИЕ ВИДЕО (внизу) -->
     <section class="similar-videos">
       <h2>Похожие видео</h2>
       <div class="grid" id="similarGrid"></div>
     </section>
-
   </main>
 
   <main id="page-favorites" class="page">
