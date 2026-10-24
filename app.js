@@ -1,4 +1,4 @@
-// ---------- ДАННЫЕ (добавлено поле videoUrl) ----------
+// ---------- ДАННЫЕ ----------
 const VIDEOS = [
   { id: 1, title: 'Полночный бархат', cat: 'Романтика', studio: 'Velvet Studio', actors: ['Анна С.', 'Дмитрий К.'], desc: 'Изысканная история о тайной встрече.', date: '2026-10-25', views: 15000, likes: 1200, duration: '15:20', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4' },
   { id: 2, title: 'Красный шёлк', cat: 'Романтика', studio: 'Red Light Films', actors: ['Елена В.', 'Максим Р.'], desc: 'Страсть, которая вспыхивает с первого касания.', date: '2026-10-24', views: 25000, likes: 3400, duration: '22:15', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4' },
@@ -206,6 +206,13 @@ function openVideoPage(id) {
   const player = document.getElementById('videoPlayer');
   player.src = v.videoUrl; 
   player.poster = `https://via.placeholder.com/1280x720/1A1A1F/C8102E?text=${encodeURIComponent(v.title)}`;
+  player.load(); // Сбрасываем плеер для нового видео
+  
+  // Сбрасываем состояние плеера
+  document.getElementById('centerPlayBtn').classList.remove('hidden');
+  document.getElementById('playPauseBtn').textContent = '▶';
+  document.getElementById('progressFill').style.width = '0%';
+  document.getElementById('currentTime').textContent = '0:00';
 
   document.getElementById('videoTitle').textContent = v.title;
   document.getElementById('videoDesc').textContent = v.desc;
@@ -245,6 +252,116 @@ function checkHash() {
   }
 }
 window.addEventListener('hashchange', checkHash);
+
+// =========================================================
+// ---------- ЛОГИКА КАСТОМНОГО ПЛЕЕРА ----------
+// =========================================================
+
+const video = document.getElementById('videoPlayer');
+const playPauseBtn = document.getElementById('playPauseBtn');
+const centerPlayBtn = document.getElementById('centerPlayBtn');
+const progressFill = document.getElementById('progressFill');
+const progressBarWrap = document.querySelector('.progress-bar-wrap');
+const currentTimeEl = document.getElementById('currentTime');
+const totalTimeEl = document.getElementById('totalTime');
+const muteBtn = document.getElementById('muteBtn');
+const volumeSlider = document.getElementById('volumeSlider');
+const playerContainer = document.getElementById('playerContainer');
+
+// Форматирование времени (например, 125 сек -> 2:05)
+function formatTime(seconds) {
+  if (isNaN(seconds)) return '0:00';
+  const m = Math.floor(seconds / 60);
+  const s = Math.floor(seconds % 60);
+  return `${m}:${s < 10 ? '0' : ''}${s}`;
+}
+
+// Play / Pause
+function togglePlay() {
+  if (video.paused) {
+    video.play();
+  } else {
+    video.pause();
+  }
+}
+
+video.addEventListener('play', () => {
+  playPauseBtn.textContent = '⏸';
+  centerPlayBtn.classList.add('hidden');
+});
+
+video.addEventListener('pause', () => {
+  playPauseBtn.textContent = '▶';
+  centerPlayBtn.classList.remove('hidden');
+});
+
+// Обновление прогресс-бара и времени
+video.addEventListener('timeupdate', () => {
+  const percent = (video.currentTime / video.duration) * 100;
+  progressFill.style.width = percent + '%';
+  currentTimeEl.textContent = formatTime(video.currentTime);
+});
+
+video.addEventListener('loadedmetadata', () => {
+  totalTimeEl.textContent = formatTime(video.duration);
+});
+
+// Клик по прогресс-бару
+function seekVideo(e) {
+  const rect = progressBarWrap.getBoundingClientRect();
+  const pos = (e.clientX - rect.left) / rect.width;
+  video.currentTime = pos * video.duration;
+}
+
+// Перемотка на 10 секунд
+function skipTime(seconds) {
+  video.currentTime += seconds;
+}
+
+// Громкость
+function changeVolume(val) {
+  video.volume = val;
+  video.muted = (val == 0);
+  updateMuteIcon();
+}
+
+function toggleMute() {
+  video.muted = !video.muted;
+  updateMuteIcon();
+}
+
+function updateMuteIcon() {
+  if (video.muted || video.volume === 0) {
+    muteBtn.textContent = '🔇';
+    volumeSlider.value = 0;
+  } else {
+    muteBtn.textContent = '🔊';
+    volumeSlider.value = video.volume;
+  }
+}
+
+// Фуллскрин
+function toggleFullscreen() {
+  if (!document.fullscreenElement) {
+    if (playerContainer.requestFullscreen) {
+      playerContainer.requestFullscreen();
+    } else if (playerContainer.webkitRequestFullscreen) {
+      playerContainer.webkitRequestFullscreen();
+    }
+  } else {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    }
+  }
+}
+
+// Показ контролов на мобилках при клике
+playerContainer.addEventListener('click', (e) => {
+  // Если кликнули не по кнопкам и не по прогресс-бару
+  if (e.target === video || e.target === playerContainer) {
+    playerContainer.classList.toggle('show-controls');
+  }
+});
 
 // ---------- КОММЕНТАРИИ ----------
 function renderComments() {
