@@ -22,15 +22,16 @@
       <span class="logo-text">VELVET</span>
     </a>
 
+    <!-- ПОИСК В ЦЕНТРЕ -->
+    <div class="search-wrap">
+      <input type="text" id="searchInput" placeholder="Поиск видео…" oninput="renderCatalog()">
+    </div>
+
     <nav class="nav">
       <a href="#" onclick="showPage('home'); return false;">Главная</a>
       <a href="#" onclick="showPage('favorites'); return false;">Избранное <span id="favCount" class="badge">0</span></a>
       <a href="#" onclick="showPage('profile'); return false;">Профиль</a>
     </nav>
-
-    <div class="search-wrap">
-      <input type="text" id="searchInput" placeholder="Поиск видео…" oninput="renderCatalog()">
-    </div>
   </header>
 
   <!-- ГЛАВНАЯ -->
@@ -38,6 +39,7 @@
     <section class="hero">
       <h1>Ночь начинается здесь</h1>
       <p>Отборное кино для взрослых. Только для 18+</p>
+      <button class="random-btn" onclick="playRandom()">🎲 Случайное видео</button>
     </section>
 
     <section class="categories" id="categories"></section>
@@ -80,6 +82,25 @@
       <div id="ratingsList" class="ratings"></div>
     </div>
   </main>
+
+  <!-- МОДАЛЬНОЕ ОКНО (ПРОСМОТР ВИДЕО) -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div class="modal-cover" id="modalCover"></div>
+      <div class="modal-body">
+        <h2 id="modalTitle"></h2>
+        <p class="modal-cat" id="modalCat"></p>
+        <p class="modal-desc" id="modalDesc"></p>
+        
+        <div class="modal-actions">
+          <button id="modalLikeBtn" class="action-btn" onclick="rateFromModal('like')">👍 Нравится</button>
+          <button id="modalDislikeBtn" class="action-btn" onclick="rateFromModal('dislike')">👎 Не нравится</button>
+          <button class="action-btn fav-modal-btn" id="modalFavBtn" onclick="favFromModal()">🤍 В избранное</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <footer class="footer">
     <p>© 2026 VELVET · 18+ · Витрина. Все видео размещены на сторонних ресурсах.</p>
