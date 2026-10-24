@@ -1,4 +1,4 @@
-// ---------- ДАННЫЕ (добавлено поле duration) ----------
+// ---------- ДАННЫЕ ----------
 const VIDEOS = [
   { id: 1, title: 'Полночный бархат', cat: 'Романтика', studio: 'Velvet Studio', actors: ['Анна С.', 'Дмитрий К.'], desc: 'Изысканная история о тайной встрече.', date: '2026-10-25', views: 15000, likes: 1200, duration: '15:20' },
   { id: 2, title: 'Красный шёлк', cat: 'Романтика', studio: 'Red Light Films', actors: ['Елена В.', 'Максим Р.'], desc: 'Страсть, которая вспыхивает с первого касания.', date: '2026-10-24', views: 25000, likes: 3400, duration: '22:15' },
@@ -29,13 +29,13 @@ let currentCat = 'Все';
 let favorites   = store.get('favorites', []);
 let profile     = store.get('profile', { name: '', actors: [] });
 let ratings     = store.get('ratings', {});
-let allComments = store.get('comments', {}); // { videoId: [ {author, text, date} ] }
+let allComments = store.get('comments', {});
 let currentVideoId = null;
 
-let topTime = 'all';
-let viewsTime = 'all';
+let sortMode = 'all'; 
+let timeFilter = 'all';
 
-// ---------- ВРЕМЯ ВЫХОДА (относительное) ----------
+// ---------- ВРЕМЯ ВЫХОДА ----------
 function timeAgo(dateStr) {
   const date = new Date(dateStr);
   const now = new Date();
@@ -44,12 +44,9 @@ function timeAgo(dateStr) {
 
   if (diffDays === 0) return 'сегодня';
   if (diffDays === 1) return 'вчера';
-  
-  // Правильное склонение для дней
   if (diffDays > 1 && diffDays < 5) return `${diffDays} дня назад`;
   if (diffDays >= 5 && diffDays < 21) return `${diffDays} дней назад`;
   
-  // Если больше 21 дня, показываем точную дату
   const options = { day: 'numeric', month: 'short', year: 'numeric' };
   return date.toLocaleDateString('ru-RU', options);
 }
@@ -61,120 +58,80 @@ function showPage(name) {
   
   if (name === 'favorites') renderFavorites();
   if (name === 'profile')   renderProfile();
-  if (name === 'top')       renderTop();
-  if (name === 'views')     renderViews();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// ---------- ССЫЛКИ И ОТКРЫТИЕ ВИДЕО ----------
-function openVideoPage(id) {
-  const v = VIDEOS.find(x => x.id === id);
-  if (!v) return;
-
-  currentVideoId = id;
-  window.location.hash = 'video-' + id;
-
-  videoViews[id] = (videoViews[id] || 0) + 1;
-  store.set('videoViews', videoViews);
-
-  // Заполняем данные
-  document.getElementById('videoTitle').textContent = v.title;
-  document.getElementById('videoDesc').textContent = v.desc;
-  document.getElementById('videoStudio').textContent = v.studio;
-  document.getElementById('studioAvatar').textContent = v.studio.charAt(0).toUpperCase();
-  document.getElementById('videoDuration').textContent = v.duration;
+// ---------- МОДАЛЬНОЕ ОКНО КАТЕГОРИЙ ----------
+function openCategoriesModal() {
+  const grid = document.getElementById('catGridModal');
+  // Генерируем карточки, кроме "Все" (так как это фильтр по умолчанию)
+  const catsToShow = CATEGORIES.filter(c => c !== 'Все');
   
-  const totalViews = v.views + (videoViews[id] || 0);
-  document.getElementById('videoViewsText').textContent = `${totalViews.toLocaleString('ru-RU')} просмотров · ${timeAgo(v.date)}`;
-
-  const actorsList = document.getElementById('videoActorsList');
-  actorsList.innerHTML = v.actors.map(a => `<li>${a}</li>`).join('');
-
-  // Рендерим комментарии
-  renderComments();
-
-  // Рендерим похожие видео (по категории)
-  const similar = VIDEOS.filter(item => item.cat === v.cat && item.id !== v.id).slice(0, 4);
-  document.getElementById('similarGrid').innerHTML = similar.length > 0 
-    ? similar.map(item => cardHTML(item)).join('') 
-    : '<p class="empty">Похожих видео пока нет</p>';
-
-  updateVideoPageButtons();
-  showPage('video');
-}
-
-function goBack() {
-  window.history.pushState("", document.title, window.location.pathname + window.location.search);
-  showPage('home');
-}
-
-function checkHash() {
-  const hash = window.location.hash;
-  if (hash.startsWith('#video-')) {
-    const id = parseInt(hash.replace('#video-', ''));
-    if (!isNaN(id)) openVideoPage(id);
-  }
-}
-window.addEventListener('hashchange', checkHash);
-
-// ---------- КОММЕНТАРИИ ----------
-function renderComments() {
-  const list = document.getElementById('commentsList');
-  const title = document.getElementById('commentsTitle');
-  
-  const comments = allComments[currentVideoId] || [];
-  title.textContent = `Комментарии (${comments.length})`;
-
-  if (comments.length === 0) {
-    list.innerHTML = '<p style="color: var(--muted); font-size: 14px;">Пока нет комментариев. Будь первым!</p>';
-    return;
-  }
-
-  list.innerHTML = comments.map(c => `
-    <div class="comment-item">
-      <div class="comment-avatar">${c.author.charAt(0).toUpperCase()}</div>
-      <div class="comment-body">
-        <div class="comment-author">${c.author}</div>
-        <div class="comment-text">${c.text}</div>
-        <div class="comment-date">${timeAgo(c.date)}</div>
-      </div>
+  grid.innerHTML = catsToShow.map(c => `
+    <div class="cat-card cat-bg-${c}" onclick="selectCategoryFromModal('${c}')">
+      <span>${c}</span>
     </div>
   `).join('');
+
+  document.getElementById('categoriesModal').classList.add('active');
 }
 
-function addComment() {
-  const input = document.getElementById('commentInput');
-  const text = input.value.trim();
-  if (!text) return;
-
-  const authorName = profile.name || 'Гость';
-  
-  if (!allComments[currentVideoId]) allComments[currentVideoId] = [];
-  
-  allComments[currentVideoId].unshift({
-    author: authorName,
-    text: text,
-    date: new Date().toISOString().split('T')[0] // Текущая дата
-  });
-
-  store.set('comments', allComments);
-  input.value = '';
-  renderComments();
+function closeCategoriesModal() {
+  document.getElementById('categoriesModal').classList.remove('active');
 }
 
-// ---------- ФИЛЬТРЫ ВРЕМЕНИ (ЛУЧШЕЕ И ПРОСМОТРЫ) ----------
-function setTopTime(time) {
-  topTime = time;
-  document.querySelectorAll('#topFilters .filter-btn').forEach(btn => btn.classList.remove('active'));
-  event.target.classList.add('active');
-  renderTop();
+function selectCategoryFromModal(cat) {
+  currentCat = cat;
+  closeCategoriesModal();
+  setSortMode('all'); // Сбрасываем на "Все видео"
+  renderCatalog();
 }
 
-function setViewsTime(time) {
-  viewsTime = time;
-  document.querySelectorAll('#viewsFilters .filter-btn').forEach(btn => btn.classList.remove('active'));
-  event.target.classList.add('active');
-  renderViews();
+// Закрытие по клику вне окна
+window.addEventListener('click', function(e) {
+  const modal = document.getElementById('categoriesModal');
+  if (e.target === modal) {
+    closeCategoriesModal();
+  }
+});
+
+// ---------- ВЫПАДАЮЩЕЕ МЕНЮ ВРЕМЕНИ ----------
+function toggleDropdown() {
+  const dropdown = document.getElementById('timeDropdown');
+  dropdown.classList.toggle('open');
+}
+
+window.addEventListener('click', function(e) {
+  const dropdown = document.getElementById('timeDropdown');
+  if (dropdown && !dropdown.contains(e.target)) {
+    dropdown.classList.remove('open');
+  }
+});
+
+function setTimeFilter(time) {
+  timeFilter = time;
+  const labels = { 'all': 'За всё время', 'month': 'За месяц', 'week': 'За неделю', 'today': 'За сегодня' };
+  document.getElementById('timeLabel').textContent = labels[time];
+  document.getElementById('timeDropdown').classList.remove('open');
+  renderCatalog();
+}
+
+// ---------- РЕЖИМЫ СОРТИРОВКИ ----------
+function setSortMode(mode) {
+  sortMode = mode;
+  document.querySelectorAll('.sort-tab').forEach(tab => tab.classList.remove('active'));
+  document.getElementById('tab-' + mode).classList.add('active');
+
+  const dropdown = document.getElementById('timeDropdown');
+  dropdown.style.display = (mode === 'all') ? 'none' : 'block';
+
+  renderCatalog();
+}
+
+// ---------- КАТЕГОРИИ (СТАРЫЙ СПОСОБ, ОСТАВЛЕН НА СЛУЧАЙ ЕСЛИ ПОНАДОБИТСЯ) ----------
+function setCategory(cat) {
+  currentCat = cat;
+  renderCatalog();
 }
 
 function isDateInPeriod(dateStr, period) {
@@ -190,38 +147,45 @@ function isDateInPeriod(dateStr, period) {
   return true;
 }
 
-function renderTop() {
-  const grid = document.getElementById('topGrid');
-  let list = VIDEOS.filter(v => isDateInPeriod(v.date, topTime));
-  list.sort((a, b) => b.likes - a.likes);
+// ---------- РЕНДЕР КАТАЛОГА ----------
+function renderCatalog() {
+  const grid  = document.getElementById('grid');
+  const query = document.getElementById('searchInput').value.toLowerCase().trim();
+  const empty = document.getElementById('emptyMsg');
+
+  let list = VIDEOS;
+
+  // Фильтр категории
+  if (currentCat !== 'Все') {
+    list = list.filter(v => v.cat === currentCat);
+  }
+
+  // Поиск
+  if (query) {
+    list = list.filter(v => v.title.toLowerCase().includes(query));
+  }
+
+  // Сортировка и время
+  if (sortMode === 'top' || sortMode === 'views') {
+    list = list.filter(v => isDateInPeriod(v.date, timeFilter));
+    
+    if (sortMode === 'top') {
+      list.sort((a, b) => b.likes - a.likes);
+    } else if (sortMode === 'views') {
+      list.sort((a, b) => {
+        const viewsA = a.views + (videoViews[a.id] || 0);
+        const viewsB = b.views + (videoViews[b.id] || 0);
+        return viewsB - viewsA;
+      });
+    }
+  }
+
+  if (!list.length) { grid.innerHTML = ''; empty.style.display = 'block'; return; }
+  empty.style.display = 'none';
   grid.innerHTML = list.map(v => cardHTML(v)).join('');
 }
 
-function renderViews() {
-  const grid = document.getElementById('viewsGrid');
-  let list = VIDEOS.filter(v => isDateInPeriod(v.date, viewsTime));
-  list.sort((a, b) => {
-    const viewsA = a.views + (videoViews[a.id] || 0);
-    const viewsB = b.views + (videoViews[b.id] || 0);
-    return viewsB - viewsA;
-  });
-  grid.innerHTML = list.map(v => cardHTML(v)).join('');
-}
-
-// ---------- КАТАЛОГ И КАРТОЧКИ ----------
-function renderCategories() {
-  const box = document.getElementById('categories');
-  box.innerHTML = CATEGORIES.map(c =>
-    `<button class="cat-btn ${c === currentCat ? 'active' : ''}" onclick="setCategory('${c}')">${c}</button>`
-  ).join('');
-}
-
-function setCategory(cat) {
-  currentCat = cat;
-  renderCategories();
-  renderCatalog();
-}
-
+// ---------- КАРТОЧКА ----------
 function cardHTML(v) {
   const isFav = favorites.includes(v.id);
   const userRating = ratings[v.id] || null;
@@ -252,21 +216,95 @@ function cardHTML(v) {
   `;
 }
 
-function renderCatalog() {
-  const grid  = document.getElementById('grid');
-  const query = document.getElementById('searchInput').value.toLowerCase().trim();
-  const title = document.getElementById('catalogTitle');
-  const empty = document.getElementById('emptyMsg');
+// ---------- СТРАНИЦА ВИДЕО ----------
+function openVideoPage(id) {
+  const v = VIDEOS.find(x => x.id === id);
+  if (!v) return;
 
-  let list = VIDEOS;
-  if (currentCat !== 'Все') list = list.filter(v => v.cat === currentCat);
-  if (query) list = list.filter(v => v.title.toLowerCase().includes(query));
+  currentVideoId = id;
+  window.location.hash = 'video-' + id;
 
-  title.textContent = currentCat === 'Все' ? 'Все видео' : currentCat;
+  videoViews[id] = (videoViews[id] || 0) + 1;
+  store.set('videoViews', videoViews);
 
-  if (!list.length) { grid.innerHTML = ''; empty.style.display = 'block'; return; }
-  empty.style.display = 'none';
-  grid.innerHTML = list.map(v => cardHTML(v)).join('');
+  document.getElementById('videoTitle').textContent = v.title;
+  document.getElementById('videoDesc').textContent = v.desc;
+  document.getElementById('videoStudio').textContent = v.studio;
+  document.getElementById('studioAvatar').textContent = v.studio.charAt(0).toUpperCase();
+  document.getElementById('videoDuration').textContent = v.duration;
+  
+  const totalViews = v.views + (videoViews[id] || 0);
+  document.getElementById('videoViewsText').textContent = `${totalViews.toLocaleString('ru-RU')} просмотров · ${timeAgo(v.date)}`;
+
+  const actorsList = document.getElementById('videoActorsList');
+  actorsList.innerHTML = v.actors.map(a => `<li>${a}</li>`).join('');
+
+  renderComments();
+
+  const similar = VIDEOS.filter(item => item.cat === v.cat && item.id !== v.id).slice(0, 4);
+  document.getElementById('similarGrid').innerHTML = similar.length > 0 
+    ? similar.map(item => cardHTML(item)).join('') 
+    : '<p class="empty">Похожих видео пока нет</p>';
+
+  updateVideoPageButtons();
+  showPage('video');
+}
+
+function goBack() {
+  window.history.pushState("", document.title, window.location.pathname + window.location.search);
+  showPage('home');
+}
+
+function checkHash() {
+  const hash = window.location.hash;
+  if (hash.startsWith('#video-')) {
+    const id = parseInt(hash.replace('#video-', ''));
+    if (!isNaN(id)) openVideoPage(id);
+  }
+}
+window.addEventListener('hashchange', checkHash);
+
+// ---------- КОММЕНТАРИИ ----------
+function renderComments() {
+  const list = document.getElementById('commentsList');
+  const title = document.getElementById('commentsTitle');
+  const comments = allComments[currentVideoId] || [];
+  title.textContent = `Комментарии (${comments.length})`;
+
+  if (comments.length === 0) {
+    list.innerHTML = '<p style="color: var(--muted); font-size: 14px;">Пока нет комментариев. Будь первым!</p>';
+    return;
+  }
+
+  list.innerHTML = comments.map(c => `
+    <div class="comment-item">
+      <div class="comment-avatar">${c.author.charAt(0).toUpperCase()}</div>
+      <div class="comment-body">
+        <div class="comment-author">${c.author}</div>
+        <div class="comment-text">${c.text}</div>
+        <div class="comment-date">${timeAgo(c.date)}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function addComment() {
+  const input = document.getElementById('commentInput');
+  const text = input.value.trim();
+  if (!text) return;
+
+  const authorName = profile.name || 'Гость';
+  if (!allComments[currentVideoId]) allComments[currentVideoId] = [];
+  
+  allComments[currentVideoId].unshift({
+    author: authorName,
+    text: text,
+    date: new Date().toISOString().split('T')[0]
+  });
+
+  store.set('comments', allComments);
+  input.value = '';
+  renderComments();
 }
 
 // ---------- ОЦЕНКИ И ИЗБРАННОЕ ----------
@@ -369,7 +407,6 @@ function removeActor(i) {
 }
 
 // ---------- СТАРТ ----------
-renderCategories();
 renderCatalog();
 updateFavCount();
 checkHash();
