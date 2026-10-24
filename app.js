@@ -1,24 +1,24 @@
-// ---------- ДАННЫЕ ----------
+// ---------- ДАННЫЕ (Картинки теперь через picsum) ----------
 const VIDEOS = [
-  { id: 1, title: 'Полночный бархат', cat: 'Романтика', studio: 'Velvet Studio', actors: ['Анна С.', 'Дмитрий К.'], desc: 'Изысканная история о тайной встрече.', date: '2026-10-25', views: 15000, likes: 1200, duration: '15:20', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', cover: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80' },
-  { id: 2, title: 'Красный шёлк', cat: 'Романтика', studio: 'Red Light Films', actors: ['Елена В.', 'Максим Р.'], desc: 'Страсть, которая вспыхивает с первого касания.', date: '2026-10-24', views: 25000, likes: 3400, duration: '22:15', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', cover: 'https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=800&q=80' },
-  { id: 3, title: 'Тайная встреча', cat: 'Драма', studio: 'Noir Pictures', actors: ['Ольга М.', 'Игорь Л.'], desc: 'За фасадом идеального мужа скрывается нечто большее.', date: '2026-10-20', views: 120000, likes: 8000, duration: '18:40', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', cover: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=800&q=80' },
-  { id: 4, title: 'Ночной экспресс', cat: 'Драма', studio: 'Cinema Adult', actors: ['Светлана П.', 'Андрей Н.'], desc: 'Поезд мчится сквозь тьму, а в купе разгорается буря.', date: '2026-09-15', views: 340000, likes: 25000, duration: '35:10', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', cover: 'https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&w=800&q=80' },
-  { id: 5, title: 'Огни Парижа', cat: 'Классика', studio: 'Paris Nuit', actors: ['Софи Д.', 'Жан П.'], desc: 'Классическая французская эстетика.', date: '2026-08-10', views: 500000, likes: 45000, duration: '28:05', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', cover: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=800&q=80' },
-  { id: 6, title: 'Искушение', cat: 'Классика', studio: 'Velvet Studio', actors: ['Мария Т.', 'Александр Б.'], desc: 'Искушение, которому так сложно сопротивляться.', date: '2026-07-01', views: 800000, likes: 67000, duration: '19:30', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', cover: 'https://images.unsplash.com/photo-1519638399535-1b036603ac77?auto=format&fit=crop&w=800&q=80' },
-  { id: 7, title: 'После полуночи', cat: 'Триллер', studio: 'Dark Frame', actors: ['Виктория С.', 'Павел Г.'], desc: 'Опасная игра начинается.', date: '2026-10-23', views: 5000, likes: 400, duration: '12:45', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', cover: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=800&q=80' },
-  { id: 8, title: 'Тёмная сторона', cat: 'Триллер', studio: 'Noir Pictures', actors: ['Ксения А.', 'Роман Ф.'], desc: 'Некоторые секреты лучше оставить в темноте.', date: '2025-12-01', views: 1200000, likes: 110000, duration: '45:00', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', cover: 'https://images.unsplash.com/photo-1478147427282-58a87a120781?auto=format&fit=crop&w=800&q=80' },
-  { id: 9, title: 'Бархатный сезон', cat: 'Романтика', studio: 'Velvet Studio', actors: ['Алиса Н.', 'Егор Д.'], desc: 'Солнце, море и бесконечное лето.', date: '2026-06-15', views: 45000, likes: 3200, duration: '21:10', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', cover: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80' },
-  { id: 10, title: 'Шёпот в темноте', cat: 'Триллер', studio: 'Dark Frame', actors: ['Татьяна Л.', 'Сергей В.'], desc: 'Она слышит его каждую ночь.', date: '2026-10-18', views: 18000, likes: 1500, duration: '16:50', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', cover: 'https://images.unsplash.com/photo-1509248961158-e54f6934749c?auto=format&fit=crop&w=800&q=80' },
-  { id: 11, title: 'Золотая клетка', cat: 'Драма', studio: 'Golden Films', actors: ['Наталья Р.', 'Владимир О.'], desc: 'История о выборе между комфортом и свободой.', date: '2026-02-20', views: 670000, likes: 55000, duration: '31:20', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', cover: 'https://images.unsplash.com/photo-1514539079130-25950c84af65?auto=format&fit=crop&w=800&q=80' },
-  { id: 12, title: 'Взгляд', cat: 'Классика', studio: 'Paris Nuit', actors: ['Изабель К.', 'Луи М.'], desc: 'Встреча, которая меняет всё.', date: '2024-11-05', views: 2000000, likes: 180000, duration: '14:15', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', cover: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=800&q=80' },
+  { id: 1, title: 'Полночный бархат', cat: 'Романтика', studio: 'Velvet Studio', actors: ['Анна С.', 'Дмитрий К.'], desc: 'Изысканная история о тайной встрече.', date: '2026-10-25', views: 15000, likes: 1200, duration: '15:20', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', cover: 'https://picsum.photos/id/1015/800/450' },
+  { id: 2, title: 'Красный шёлк', cat: 'Романтика', studio: 'Red Light Films', actors: ['Елена В.', 'Максим Р.'], desc: 'Страсть, которая вспыхивает с первого касания.', date: '2026-10-24', views: 25000, likes: 3400, duration: '22:15', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', cover: 'https://picsum.photos/id/1025/800/450' },
+  { id: 3, title: 'Тайная встреча', cat: 'Драма', studio: 'Noir Pictures', actors: ['Ольга М.', 'Игорь Л.'], desc: 'За фасадом идеального мужа скрывается нечто большее.', date: '2026-10-20', views: 120000, likes: 8000, duration: '18:40', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', cover: 'https://picsum.photos/id/1027/800/450' },
+  { id: 4, title: 'Ночной экспресс', cat: 'Драма', studio: 'Cinema Adult', actors: ['Светлана П.', 'Андрей Н.'], desc: 'Поезд мчится сквозь тьму, а в купе разгорается буря.', date: '2026-09-15', views: 340000, likes: 25000, duration: '35:10', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', cover: 'https://picsum.photos/id/1031/800/450' },
+  { id: 5, title: 'Огни Парижа', cat: 'Классика', studio: 'Paris Nuit', actors: ['Софи Д.', 'Жан П.'], desc: 'Классическая французская эстетика.', date: '2026-08-10', views: 500000, likes: 45000, duration: '28:05', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', cover: 'https://picsum.photos/id/1035/800/450' },
+  { id: 6, title: 'Искушение', cat: 'Классика', studio: 'Velvet Studio', actors: ['Мария Т.', 'Александр Б.'], desc: 'Искушение, которому так сложно сопротивляться.', date: '2026-07-01', views: 800000, likes: 67000, duration: '19:30', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', cover: 'https://picsum.photos/id/1040/800/450' },
+  { id: 7, title: 'После полуночи', cat: 'Триллер', studio: 'Dark Frame', actors: ['Виктория С.', 'Павел Г.'], desc: 'Опасная игра начинается.', date: '2026-10-23', views: 5000, likes: 400, duration: '12:45', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', cover: 'https://picsum.photos/id/1043/800/450' },
+  { id: 8, title: 'Тёмная сторона', cat: 'Триллер', studio: 'Noir Pictures', actors: ['Ксения А.', 'Роман Ф.'], desc: 'Некоторые секреты лучше оставить в темноте.', date: '2025-12-01', views: 1200000, likes: 110000, duration: '45:00', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', cover: 'https://picsum.photos/id/1050/800/450' },
+  { id: 9, title: 'Бархатный сезон', cat: 'Романтика', studio: 'Velvet Studio', actors: ['Алиса Н.', 'Егор Д.'], desc: 'Солнце, море и бесконечное лето.', date: '2026-06-15', views: 45000, likes: 3200, duration: '21:10', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', cover: 'https://picsum.photos/id/1062/800/450' },
+  { id: 10, title: 'Шёпот в темноте', cat: 'Триллер', studio: 'Dark Frame', actors: ['Татьяна Л.', 'Сергей В.'], desc: 'Она слышит его каждую ночь.', date: '2026-10-18', views: 18000, likes: 1500, duration: '16:50', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', cover: 'https://picsum.photos/id/1069/800/450' },
+  { id: 11, title: 'Золотая клетка', cat: 'Драма', studio: 'Golden Films', actors: ['Наталья Р.', 'Владимир О.'], desc: 'История о выборе между комфортом и свободой.', date: '2026-02-20', views: 670000, likes: 55000, duration: '31:20', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', cover: 'https://picsum.photos/id/1074/800/450' },
+  { id: 12, title: 'Взгляд', cat: 'Классика', studio: 'Paris Nuit', actors: ['Изабель К.', 'Луи М.'], desc: 'Встреча, которая меняет всё.', date: '2024-11-05', views: 2000000, likes: 180000, duration: '14:15', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', cover: 'https://picsum.photos/id/1080/800/450' },
 ];
 
 const CATEGORY_IMAGES = {
-  'Романтика': 'https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=600&q=80',
-  'Драма': 'https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=600&q=80',
-  'Классика': 'https://images.unsplash.com/photo-1440404653325-ab127d49abc1?auto=format&fit=crop&w=600&q=80',
-  'Триллер': 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
+  'Романтика': 'https://picsum.photos/id/1011/600/400',
+  'Драма': 'https://picsum.photos/id/1012/600/400',
+  'Классика': 'https://picsum.photos/id/1013/600/400',
+  'Триллер': 'https://picsum.photos/id/1014/600/400'
 };
 
 const CATEGORIES = ['Все', 'Романтика', 'Драма', 'Классика', 'Триллер'];
@@ -176,9 +176,7 @@ function cardHTML(v) {
   const userRating = ratings[v.id] || null;
   const totalViews = v.views + (videoViews[v.id] || 0);
   
-  // Считаем лайки (базовые + если ты нажал, добавляем 1)
   const currentLikes = v.likes + (userRating === 'like' ? 1 : 0);
-  // Считаем дизлайки (базовые (например 50, чтобы не было 0) + если ты нажал, добавляем 1)
   const baseDislikes = Math.floor(v.likes * 0.05) + 15; 
   const currentDislikes = baseDislikes + (userRating === 'dislike' ? 1 : 0);
 
@@ -223,7 +221,6 @@ function openVideoPage(id) {
   currentVideoId = id;
   window.location.hash = 'video-' + id;
 
-  // --- РЕАЛЬНЫЕ ПРОСМОТРЫ ---
   let viewedInSession = JSON.parse(sessionStorage.getItem('velvet_session_views') || '[]');
   if (!viewedInSession.includes(id)) {
     videoViews[id] = (videoViews[id] || 0) + 1;
@@ -238,7 +235,7 @@ function openVideoPage(id) {
   if (v.cover) {
     player.poster = v.cover;
   } else {
-    player.poster = `https://via.placeholder.com/1280x720/1A1A1F/C8102E?text=${encodeURIComponent(v.title)}`;
+    player.poster = `https://picsum.photos/1280/720?grayscale`;
   }
   
   player.load();
@@ -443,7 +440,6 @@ function toggleFav(id) {
 function toggleRatingFromPage(type) { toggleRating(currentVideoId, type); }
 function toggleFavFromPage() { toggleFav(currentVideoId); }
 
-// Обновляем кнопки и на странице видео
 function updateVideoPageButtons() {
   if (!currentVideoId) return;
   const v = VIDEOS.find(x => x.id === currentVideoId);
