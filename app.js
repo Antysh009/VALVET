@@ -1,4 +1,4 @@
-// ---------- ДАННЫЕ (Картинки теперь через picsum) ----------
+// ---------- ДАННЫЕ ----------
 const VIDEOS = [
   { id: 1, title: 'Полночный бархат', cat: 'Романтика', studio: 'Velvet Studio', actors: ['Анна С.', 'Дмитрий К.'], desc: 'Изысканная история о тайной встрече.', date: '2026-10-25', views: 15000, likes: 1200, duration: '15:20', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', cover: 'https://picsum.photos/id/1015/800/450' },
   { id: 2, title: 'Красный шёлк', cat: 'Романтика', studio: 'Red Light Films', actors: ['Елена В.', 'Максим Р.'], desc: 'Страсть, которая вспыхивает с первого касания.', date: '2026-10-24', views: 25000, likes: 3400, duration: '22:15', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', cover: 'https://picsum.photos/id/1025/800/450' },
@@ -423,6 +423,7 @@ function toggleRating(id, type) {
   renderCatalog(); 
   if (currentVideoId === id) updateVideoPageButtons();
   if (document.getElementById('page-favorites').classList.contains('active')) renderFavorites();
+  if (document.getElementById('page-profile').classList.contains('active')) renderProfile();
 }
 
 function toggleFav(id) {
@@ -435,6 +436,7 @@ function toggleFav(id) {
   renderCatalog();
   if (currentVideoId === id) updateVideoPageButtons();
   if (document.getElementById('page-favorites').classList.contains('active')) renderFavorites();
+  if (document.getElementById('page-profile').classList.contains('active')) renderProfile();
 }
 
 function toggleRatingFromPage(type) { toggleRating(currentVideoId, type); }
@@ -477,7 +479,7 @@ function playRandom() {
   openVideoPage(VIDEOS[randomIndex].id);
 }
 
-// ---------- ПРОФИЛЬ ----------
+// ---------- ПРОФИЛЬ (ОБНОВЛЕННЫЙ) ----------
 function renderProfile() {
   document.getElementById('username').value = profile.name || '';
   document.getElementById('avatar').textContent = (profile.name || '?').charAt(0).toUpperCase();
@@ -487,16 +489,21 @@ function renderProfile() {
     `<li>${a} <span onclick="removeActor(${i})">✕</span></li>`
   ).join('');
 
-  const ratingsList = document.getElementById('ratingsList');
-  const entries = Object.entries(ratings);
-  if (!entries.length) { ratingsList.innerHTML = '<p class="empty">Пока нет оценок</p>'; return; }
+  // Отрисовка оценок в виде карточек
+  const ratingsGrid = document.getElementById('ratingsGrid');
+  const ratingsEmpty = document.getElementById('ratingsEmpty');
+  const ratedVideoIds = Object.keys(ratings).map(id => parseInt(id));
   
-  ratingsList.innerHTML = entries.map(([id, val]) => {
-    const v = VIDEOS.find(x => x.id == id);
-    if (!v) return '';
-    const icon = val === 'like' ? '<span class="rating-like">👍 Нравится</span>' : '<span class="rating-dislike">👎 Не нравится</span>';
-    return `<div class="rating-row"><span>${v.title}</span>${icon}</div>`;
-  }).join('');
+  const ratedVideos = VIDEOS.filter(v => ratedVideoIds.includes(v.id));
+
+  if (ratedVideos.length === 0) {
+    ratingsGrid.innerHTML = '';
+    ratingsEmpty.style.display = 'block';
+    return;
+  }
+
+  ratingsEmpty.style.display = 'none';
+  ratingsGrid.innerHTML = ratedVideos.map(v => cardHTML(v)).join('');
 }
 
 function saveProfile() {
