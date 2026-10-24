@@ -1,18 +1,26 @@
-// ---------- ДАННЫЕ ----------
+// ---------- ДАННЫЕ (добавлено поле cover) ----------
 const VIDEOS = [
-  { id: 1, title: 'Полночный бархат', cat: 'Романтика', studio: 'Velvet Studio', actors: ['Анна С.', 'Дмитрий К.'], desc: 'Изысканная история о тайной встрече.', date: '2026-10-25', views: 15000, likes: 1200, duration: '15:20', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4' },
-  { id: 2, title: 'Красный шёлк', cat: 'Романтика', studio: 'Red Light Films', actors: ['Елена В.', 'Максим Р.'], desc: 'Страсть, которая вспыхивает с первого касания.', date: '2026-10-24', views: 25000, likes: 3400, duration: '22:15', videoUrl: 'https://r10.sosalkino.online/videos/za-noski-otvetish-zasranec/' },
-  { id: 3, title: 'Тайная встреча', cat: 'Драма', studio: 'Noir Pictures', actors: ['Ольга М.', 'Игорь Л.'], desc: 'За фасадом идеального мужа скрывается нечто большее.', date: '2026-10-20', views: 120000, likes: 8000, duration: '18:40', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4' },
-  { id: 4, title: 'Ночной экспресс', cat: 'Драма', studio: 'Cinema Adult', actors: ['Светлана П.', 'Андрей Н.'], desc: 'Поезд мчится сквозь тьму, а в купе разгорается буря.', date: '2026-09-15', views: 340000, likes: 25000, duration: '35:10', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4' },
-  { id: 5, title: 'Огни Парижа', cat: 'Классика', studio: 'Paris Nuit', actors: ['Софи Д.', 'Жан П.'], desc: 'Классическая французская эстетика.', date: '2026-08-10', views: 500000, likes: 45000, duration: '28:05', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4' },
-  { id: 6, title: 'Искушение', cat: 'Классика', studio: 'Velvet Studio', actors: ['Мария Т.', 'Александр Б.'], desc: 'Искушение, которому так сложно сопротивляться.', date: '2026-07-01', views: 800000, likes: 67000, duration: '19:30', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4' },
-  { id: 7, title: 'После полуночи', cat: 'Триллер', studio: 'Dark Frame', actors: ['Виктория С.', 'Павел Г.'], desc: 'Опасная игра начинается.', date: '2026-10-23', views: 5000, likes: 400, duration: '12:45', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4' },
-  { id: 8, title: 'Тёмная сторона', cat: 'Триллер', studio: 'Noir Pictures', actors: ['Ксения А.', 'Роман Ф.'], desc: 'Некоторые секреты лучше оставить в темноте.', date: '2025-12-01', views: 1200000, likes: 110000, duration: '45:00', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4' },
-  { id: 9, title: 'Бархатный сезон', cat: 'Романтика', studio: 'Velvet Studio', actors: ['Алиса Н.', 'Егор Д.'], desc: 'Солнце, море и бесконечное лето.', date: '2026-06-15', views: 45000, likes: 3200, duration: '21:10', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4' },
-  { id: 10, title: 'Шёпот в темноте', cat: 'Триллер', studio: 'Dark Frame', actors: ['Татьяна Л.', 'Сергей В.'], desc: 'Она слышит его каждую ночь.', date: '2026-10-18', views: 18000, likes: 1500, duration: '16:50', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4' },
-  { id: 11, title: 'Золотая клетка', cat: 'Драма', studio: 'Golden Films', actors: ['Наталья Р.', 'Владимир О.'], desc: 'История о выборе между комфортом и свободой.', date: '2026-02-20', views: 670000, likes: 55000, duration: '31:20', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4' },
-  { id: 12, title: 'Взгляд', cat: 'Классика', studio: 'Paris Nuit', actors: ['Изабель К.', 'Луи М.'], desc: 'Встреча, которая меняет всё.', date: '2024-11-05', views: 2000000, likes: 180000, duration: '14:15', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4' },
+  { id: 1, title: 'Полночный бархат', cat: 'Романтика', studio: 'Velvet Studio', actors: ['Анна С.', 'Дмитрий К.'], desc: 'Изысканная история о тайной встрече.', date: '2026-10-25', views: 15000, likes: 1200, duration: '15:20', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', cover: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80' },
+  { id: 2, title: 'Красный шёлк', cat: 'Романтика', studio: 'Red Light Films', actors: ['Елена В.', 'Максим Р.'], desc: 'Страсть, которая вспыхивает с первого касания.', date: '2026-10-24', views: 25000, likes: 3400, duration: '22:15', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', cover: 'https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=800&q=80' },
+  { id: 3, title: 'Тайная встреча', cat: 'Драма', studio: 'Noir Pictures', actors: ['Ольга М.', 'Игорь Л.'], desc: 'За фасадом идеального мужа скрывается нечто большее.', date: '2026-10-20', views: 120000, likes: 8000, duration: '18:40', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', cover: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=800&q=80' },
+  { id: 4, title: 'Ночной экспресс', cat: 'Драма', studio: 'Cinema Adult', actors: ['Светлана П.', 'Андрей Н.'], desc: 'Поезд мчится сквозь тьму, а в купе разгорается буря.', date: '2026-09-15', views: 340000, likes: 25000, duration: '35:10', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', cover: 'https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&w=800&q=80' },
+  { id: 5, title: 'Огни Парижа', cat: 'Классика', studio: 'Paris Nuit', actors: ['Софи Д.', 'Жан П.'], desc: 'Классическая французская эстетика.', date: '2026-08-10', views: 500000, likes: 45000, duration: '28:05', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', cover: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=800&q=80' },
+  { id: 6, title: 'Искушение', cat: 'Классика', studio: 'Velvet Studio', actors: ['Мария Т.', 'Александр Б.'], desc: 'Искушение, которому так сложно сопротивляться.', date: '2026-07-01', views: 800000, likes: 67000, duration: '19:30', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', cover: 'https://images.unsplash.com/photo-1519638399535-1b036603ac77?auto=format&fit=crop&w=800&q=80' },
+  { id: 7, title: 'После полуночи', cat: 'Триллер', studio: 'Dark Frame', actors: ['Виктория С.', 'Павел Г.'], desc: 'Опасная игра начинается.', date: '2026-10-23', views: 5000, likes: 400, duration: '12:45', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', cover: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=800&q=80' },
+  { id: 8, title: 'Тёмная сторона', cat: 'Триллер', studio: 'Noir Pictures', actors: ['Ксения А.', 'Роман Ф.'], desc: 'Некоторые секреты лучше оставить в темноте.', date: '2025-12-01', views: 1200000, likes: 110000, duration: '45:00', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', cover: 'https://images.unsplash.com/photo-1478147427282-58a87a120781?auto=format&fit=crop&w=800&q=80' },
+  { id: 9, title: 'Бархатный сезон', cat: 'Романтика', studio: 'Velvet Studio', actors: ['Алиса Н.', 'Егор Д.'], desc: 'Солнце, море и бесконечное лето.', date: '2026-06-15', views: 45000, likes: 3200, duration: '21:10', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', cover: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80' },
+  { id: 10, title: 'Шёпот в темноте', cat: 'Триллер', studio: 'Dark Frame', actors: ['Татьяна Л.', 'Сергей В.'], desc: 'Она слышит его каждую ночь.', date: '2026-10-18', views: 18000, likes: 1500, duration: '16:50', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', cover: 'https://images.unsplash.com/photo-1509248961158-e54f6934749c?auto=format&fit=crop&w=800&q=80' },
+  { id: 11, title: 'Золотая клетка', cat: 'Драма', studio: 'Golden Films', actors: ['Наталья Р.', 'Владимир О.'], desc: 'История о выборе между комфортом и свободой.', date: '2026-02-20', views: 670000, likes: 55000, duration: '31:20', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', cover: 'https://images.unsplash.com/photo-1514539079130-25950c84af65?auto=format&fit=crop&w=800&q=80' },
+  { id: 12, title: 'Взгляд', cat: 'Классика', studio: 'Paris Nuit', actors: ['Изабель К.', 'Луи М.'], desc: 'Встреча, которая меняет всё.', date: '2024-11-05', views: 2000000, likes: 180000, duration: '14:15', videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', cover: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=800&q=80' },
 ];
+
+// Ссылки на картинки для категорий (можешь заменить на свои)
+const CATEGORY_IMAGES = {
+  'Романтика': 'https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=600&q=80',
+  'Драма': 'https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=600&q=80',
+  'Классика': 'https://images.unsplash.com/photo-1440404653325-ab127d49abc1?auto=format&fit=crop&w=600&q=80',
+  'Триллер': 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80'
+};
 
 const CATEGORIES = ['Все', 'Романтика', 'Драма', 'Классика', 'Триллер'];
 
@@ -66,11 +74,14 @@ function openCategoriesModal() {
   const grid = document.getElementById('catGridModal');
   const catsToShow = CATEGORIES.filter(c => c !== 'Все');
   
-  grid.innerHTML = catsToShow.map(c => `
-    <div class="cat-card cat-bg-${c}" onclick="selectCategoryFromModal('${c}')">
-      <span>${c}</span>
-    </div>
-  `).join('');
+  grid.innerHTML = catsToShow.map(c => {
+    const bgImage = CATEGORY_IMAGES[c] ? `style="background-image: url('${CATEGORY_IMAGES[c]}')"` : '';
+    return `
+      <div class="cat-card cat-bg-${c}" ${bgImage} onclick="selectCategoryFromModal('${c}')">
+        <span>${c}</span>
+      </div>
+    `;
+  }).join('');
 
   document.getElementById('categoriesModal').classList.add('active');
 }
@@ -166,13 +177,18 @@ function cardHTML(v) {
   const userRating = ratings[v.id] || null;
   const totalViews = v.views + (videoViews[v.id] || 0);
   
+  // Если картинка есть - выводим img, если нет - текст "Обложка"
+  const coverHTML = v.cover 
+    ? `<img src="${v.cover}" alt="${v.title}">` 
+    : 'Обложка';
+
   return `
     <div class="card" onclick="openVideoPage(${v.id})">
       <div class="card-cover">
         <button class="fav-btn-float ${isFav ? 'active-fav' : ''}" onclick="event.stopPropagation(); toggleFav(${v.id})">
           ${isFav ? '❤️' : '🤍'}
         </button>
-        Обложка
+        ${coverHTML}
         <div class="duration-badge">${v.duration}</div>
       </div>
       <div class="card-body">
@@ -205,10 +221,16 @@ function openVideoPage(id) {
   // Устанавливаем видео в плеер
   const player = document.getElementById('videoPlayer');
   player.src = v.videoUrl; 
-  player.poster = `https://via.placeholder.com/1280x720/1A1A1F/C8102E?text=${encodeURIComponent(v.title)}`;
-  player.load(); // Сбрасываем плеер для нового видео
   
-  // Сбрасываем состояние плеера
+  // Ставим постером обложку видео, если она есть
+  if (v.cover) {
+    player.poster = v.cover;
+  } else {
+    player.poster = `https://via.placeholder.com/1280x720/1A1A1F/C8102E?text=${encodeURIComponent(v.title)}`;
+  }
+  
+  player.load();
+  
   document.getElementById('centerPlayBtn').classList.remove('hidden');
   document.getElementById('playPauseBtn').textContent = '▶';
   document.getElementById('progressFill').style.width = '0%';
@@ -238,7 +260,6 @@ function openVideoPage(id) {
 
 function goBack() {
   window.history.pushState("", document.title, window.location.pathname + window.location.search);
-  // Пауза видео при выходе
   const player = document.getElementById('videoPlayer');
   if (player) player.pause();
   showPage('home');
@@ -253,10 +274,7 @@ function checkHash() {
 }
 window.addEventListener('hashchange', checkHash);
 
-// =========================================================
 // ---------- ЛОГИКА КАСТОМНОГО ПЛЕЕРА ----------
-// =========================================================
-
 const video = document.getElementById('videoPlayer');
 const playPauseBtn = document.getElementById('playPauseBtn');
 const centerPlayBtn = document.getElementById('centerPlayBtn');
@@ -268,7 +286,6 @@ const muteBtn = document.getElementById('muteBtn');
 const volumeSlider = document.getElementById('volumeSlider');
 const playerContainer = document.getElementById('playerContainer');
 
-// Форматирование времени (например, 125 сек -> 2:05)
 function formatTime(seconds) {
   if (isNaN(seconds)) return '0:00';
   const m = Math.floor(seconds / 60);
@@ -276,13 +293,9 @@ function formatTime(seconds) {
   return `${m}:${s < 10 ? '0' : ''}${s}`;
 }
 
-// Play / Pause
 function togglePlay() {
-  if (video.paused) {
-    video.play();
-  } else {
-    video.pause();
-  }
+  if (video.paused) video.play();
+  else video.pause();
 }
 
 video.addEventListener('play', () => {
@@ -295,7 +308,6 @@ video.addEventListener('pause', () => {
   centerPlayBtn.classList.remove('hidden');
 });
 
-// Обновление прогресс-бара и времени
 video.addEventListener('timeupdate', () => {
   const percent = (video.currentTime / video.duration) * 100;
   progressFill.style.width = percent + '%';
@@ -306,19 +318,14 @@ video.addEventListener('loadedmetadata', () => {
   totalTimeEl.textContent = formatTime(video.duration);
 });
 
-// Клик по прогресс-бару
 function seekVideo(e) {
   const rect = progressBarWrap.getBoundingClientRect();
   const pos = (e.clientX - rect.left) / rect.width;
   video.currentTime = pos * video.duration;
 }
 
-// Перемотка на 10 секунд
-function skipTime(seconds) {
-  video.currentTime += seconds;
-}
+function skipTime(seconds) { video.currentTime += seconds; }
 
-// Громкость
 function changeVolume(val) {
   video.volume = val;
   video.muted = (val == 0);
@@ -340,24 +347,16 @@ function updateMuteIcon() {
   }
 }
 
-// Фуллскрин
 function toggleFullscreen() {
   if (!document.fullscreenElement) {
-    if (playerContainer.requestFullscreen) {
-      playerContainer.requestFullscreen();
-    } else if (playerContainer.webkitRequestFullscreen) {
-      playerContainer.webkitRequestFullscreen();
-    }
+    if (playerContainer.requestFullscreen) playerContainer.requestFullscreen();
+    else if (playerContainer.webkitRequestFullscreen) playerContainer.webkitRequestFullscreen();
   } else {
-    if (document.exitFullscreen) {
-      document.exitFullscreen();
-    }
+    if (document.exitFullscreen) document.exitFullscreen();
   }
 }
 
-// Показ контролов на мобилках при клике
 playerContainer.addEventListener('click', (e) => {
-  // Если кликнули не по кнопкам и не по прогресс-бару
   if (e.target === video || e.target === playerContainer) {
     playerContainer.classList.toggle('show-controls');
   }
