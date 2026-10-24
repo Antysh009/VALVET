@@ -12,16 +12,36 @@
 body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; }
 h1, h2, .logo-text, .page-title { font-family: 'Cormorant Garamond', serif; letter-spacing: 0.02em; }
 
-/* ---------- ШАПКА ---------- */
-.header { display: flex; align-items: center; justify-content: space-between; padding: 16px 32px; background: rgba(13,13,15,0.95); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgba(232,180,184,0.1); }
-.header-left, .header-right { flex: 1; display: flex; align-items: center; }
-.header-right { justify-content: flex-end; }
-.header-center { flex: 0 0 auto; display: flex; justify-content: center; }
+/* ---------- ШАПКА (GRID: ЛОГО СЛЕВА, ПОИСК ЦЕНТР, МЕНЮ СПРАВА) ---------- */
+.header {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  align-items: center;
+  padding: 16px 32px;
+  background: rgba(13,13,15,0.95); 
+  backdrop-filter: blur(12px);
+  position: sticky; 
+  top: 0; 
+  z-index: 100;
+  border-bottom: 1px solid rgba(232,180,184,0.1);
+}
+
+.header-left { display: flex; justify-content: flex-start; }
+.header-center { display: flex; justify-content: center; }
+.header-right { display: flex; justify-content: flex-end; }
+
 .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
 .logo-text { color: var(--text); font-size: 28px; font-weight: 700; letter-spacing: 0.2em; }
-.search-wrap { width: 100%; max-width: 300px; }
-.search-wrap input { background: var(--surface); border: 1px solid rgba(232,180,184,0.15); color: var(--text); padding: 10px 20px; border-radius: 999px; width: 100%; outline: none; transition: border-color .2s, box-shadow .2s; font-size: 14px; }
+
+.search-wrap { width: 100%; max-width: 400px; }
+.search-wrap input {
+  background: var(--surface); border: 1px solid rgba(232,180,184,0.15);
+  color: var(--text); padding: 10px 20px; border-radius: 999px;
+  width: 100%; outline: none; transition: border-color .2s, box-shadow .2s; font-size: 14px;
+  text-align: center;
+}
 .search-wrap input:focus { border-color: var(--accent); box-shadow: 0 0 15px rgba(200,16,46,0.2); }
+
 .nav { display: flex; gap: 20px; }
 .nav a { color: var(--muted); text-decoration: none; font-size: 15px; transition: color .2s; }
 .nav a:hover { color: var(--accent-2); }
@@ -32,7 +52,7 @@ h1, h2, .logo-text, .page-title { font-family: 'Cormorant Garamond', serif; lett
 .page.active { display: block; }
 .page-title { font-size: 48px; margin-bottom: 24px; }
 
-/* ---------- НОВЫЙ БАННЕР (ФОТО ПО БОКАМ) ---------- */
+/* ---------- БАННЕР (ФОТО ПО БОКАМ) ---------- */
 .hero-banner {
   position: relative;
   width: 100%;
@@ -43,28 +63,26 @@ h1, h2, .logo-text, .page-title { font-family: 'Cormorant Garamond', serif; lett
   background: linear-gradient(to right, #1A1A1F, #2a1a1f, #1A1A1F);
   display: flex;
   align-items: center;
-  justify-content: space-between; /* Раздвигает элементы по краям */
+  justify-content: space-between;
 }
 
-/* Боковые блоки с картинками */
 .banner-side {
   height: 100%;
-  width: 25%; /* Ширина боковой колонки */
+  width: 25%;
   min-width: 200px;
   position: relative;
   overflow: hidden;
+  background: #2a1a1f; /* Заглушка, если нет фото */
 }
 .banner-side img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* Делаем картинки немного затемненными по краям */
   opacity: 0.8;
   transition: opacity .3s;
 }
 .banner-side:hover img { opacity: 1; }
 
-/* Градиенты, чтобы картинки плавно переходили в центр */
 .banner-left { 
   -webkit-mask-image: linear-gradient(to right, black 50%, transparent 100%);
   mask-image: linear-gradient(to right, black 50%, transparent 100%);
@@ -74,7 +92,6 @@ h1, h2, .logo-text, .page-title { font-family: 'Cormorant Garamond', serif; lett
   mask-image: linear-gradient(to left, black 50%, transparent 100%);
 }
 
-/* Центральный контент */
 .hero-content {
   position: relative;
   z-index: 2;
@@ -246,15 +263,14 @@ button:hover { opacity: 0.85; }
 #volumeSlider { width: 80px; cursor: pointer; accent-color: var(--accent); height: 4px; }
 
 @media (max-width: 1000px) {
-  .header { flex-wrap: wrap; padding: 12px 16px; gap: 12px; }
-  .header-left, .header-right { flex: 1 0 100%; justify-content: center; }
-  .header-center { order: -1; margin-bottom: 10px; }
+  .header { grid-template-columns: 1fr; gap: 12px; padding: 12px 16px; }
+  .header-left, .header-center, .header-right { justify-content: center; }
+  .header-center { order: 3; }
+  .nav { gap: 15px; font-size: 14px; flex-wrap: wrap; justify-content: center; }
   .search-wrap { max-width: 100%; }
-  .nav { gap: 20px; justify-content: center; }
   
-  /* На мобилках прячем боковые картинки */
   .banner-side { display: none; } 
-  .hero-banner { height: 300px; background: linear-gradient(135deg, #1A1A1F, #2a1a1f); justify-content: center; }
+  .hero-banner { height: 300px; justify-content: center; }
   .hero-content h1 { font-size: 48px; }
 
   .grid { grid-template-columns: 1fr; }
