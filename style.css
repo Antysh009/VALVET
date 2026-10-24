@@ -9,13 +9,7 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Inter', sans-serif;
-  min-height: 100vh;
-}
-
+body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; }
 h1, h2, .logo-text, .page-title { font-family: 'Cormorant Garamond', serif; letter-spacing: 0.02em; }
 
 /* ---------- ШАПКА ---------- */
@@ -32,11 +26,11 @@ h1, h2, .logo-text, .page-title { font-family: 'Cormorant Garamond', serif; lett
 .search-wrap input {
   background: var(--surface); border: 1px solid rgba(232,180,184,0.15);
   color: var(--text); padding: 12px 24px; border-radius: 999px;
-  width: 100%; max-width: 500px; outline: none; transition: border-color .2s, box-shadow .2s;
+  width: 100%; max-width: 400px; outline: none; transition: border-color .2s, box-shadow .2s;
 }
 .search-wrap input:focus { border-color: var(--accent); box-shadow: 0 0 15px rgba(200,16,46,0.2); }
-.nav { display: flex; gap: 20px; }
-.nav a { color: var(--muted); text-decoration: none; font-size: 15px; transition: color .2s; }
+.nav { display: flex; gap: 16px; }
+.nav a { color: var(--muted); text-decoration: none; font-size: 14px; transition: color .2s; }
 .nav a:hover { color: var(--accent-2); }
 .badge { background: var(--accent); color: #fff; font-size: 11px; padding: 2px 7px; border-radius: 10px; margin-left: 4px; }
 
@@ -44,6 +38,12 @@ h1, h2, .logo-text, .page-title { font-family: 'Cormorant Garamond', serif; lett
 .page { display: none; padding: 32px; max-width: 1280px; margin: 0 auto; }
 .page.active { display: block; }
 .page-title { font-size: 48px; margin-bottom: 24px; }
+
+/* ---------- ФИЛЬТРЫ ---------- */
+.time-filters { display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap; }
+.filter-btn { background: var(--surface); border: 1px solid rgba(232,180,184,0.15); color: var(--muted); padding: 8px 16px; border-radius: 999px; cursor: pointer; font-size: 14px; transition: all .2s; }
+.filter-btn:hover { border-color: var(--accent-2); color: var(--text); }
+.filter-btn.active { background: var(--accent-2); color: var(--bg); border-color: var(--accent-2); font-weight: 600; }
 
 /* ---------- HERO ---------- */
 .hero { text-align: center; padding: 60px 20px 40px; background: radial-gradient(ellipse at center, rgba(200,16,46,0.15), transparent 70%); }
@@ -58,16 +58,20 @@ h1, h2, .logo-text, .page-title { font-family: 'Cormorant Garamond', serif; lett
 .cat-btn:hover { border-color: var(--accent-2); color: var(--text); }
 .cat-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
 
-.catalog h2 { font-size: 32px; margin-bottom: 20px; }
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; }
+.catalog h2, .similar-videos h2 { font-size: 32px; margin-bottom: 20px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
 
 .card { background: var(--surface); border-radius: 14px; overflow: hidden; cursor: pointer; transition: transform .2s, box-shadow .2s; display: flex; flex-direction: column; }
 .card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(200,16,46,0.25); }
 .card-cover { width: 100%; aspect-ratio: 16/9; background: linear-gradient(135deg, #2a1a1f, #1a0f13); display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 14px; position: relative; }
 .card-body { padding: 16px; flex: 1; display: flex; flex-direction: column; }
 .card-title { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
-.card-cat { font-size: 13px; color: var(--muted); margin-bottom: 12px; }
+.card-cat { font-size: 13px; color: var(--accent-2); margin-bottom: 8px; }
+.card-meta { font-size: 12px; color: var(--muted); margin-bottom: 12px; display: flex; gap: 10px; }
 .card-actions { display: flex; gap: 8px; margin-top: auto; }
+
+/* Время на обложке */
+.duration-badge { position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.8); color: #fff; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: 600; }
 
 .action-btn { background: var(--bg); border: 1px solid rgba(232,180,184,0.1); color: var(--muted); padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 13px; transition: all .2s; }
 .action-btn:hover { background: rgba(232,180,184,0.1); color: var(--text); }
@@ -85,9 +89,11 @@ h1, h2, .logo-text, .page-title { font-family: 'Cormorant Garamond', serif; lett
 .video-layout { display: grid; grid-template-columns: 1fr 300px; gap: 30px; }
 @media (max-width: 900px) { .video-layout { grid-template-columns: 1fr; } }
 
-.player-placeholder { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 16px; display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 18px; margin-bottom: 20px; border: 1px solid rgba(232,180,184,0.1); }
+.player-placeholder { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 16px; display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 18px; margin-bottom: 20px; border: 1px solid rgba(232,180,184,0.1); position: relative; }
+.player-placeholder .duration-badge { bottom: 20px; right: 20px; padding: 4px 10px; font-size: 14px; }
 
-.video-title { font-size: 36px; margin-bottom: 16px; }
+.video-title { font-size: 36px; margin-bottom: 8px; }
+.video-date { font-size: 14px; color: var(--muted); margin-bottom: 16px; display: block; }
 
 .video-meta { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; padding-bottom: 20px; border-bottom: 1px solid rgba(232,180,184,0.1); margin-bottom: 20px; }
 .studio-info { display: flex; align-items: center; gap: 12px; }
@@ -96,7 +102,7 @@ h1, h2, .logo-text, .page-title { font-family: 'Cormorant Garamond', serif; lett
 .video-views { font-size: 12px; color: var(--muted); }
 .video-actions { display: flex; gap: 10px; }
 
-.video-description-box { background: var(--surface); padding: 20px; border-radius: 12px; }
+.video-description-box { background: var(--surface); padding: 20px; border-radius: 12px; margin-bottom: 30px; }
 .video-description-box h3 { font-size: 18px; margin-bottom: 10px; }
 .video-description-box p { color: var(--muted); line-height: 1.6; }
 
@@ -104,6 +110,23 @@ h1, h2, .logo-text, .page-title { font-family: 'Cormorant Garamond', serif; lett
 .actors-sidebar { list-style: none; display: flex; flex-direction: column; gap: 12px; }
 .actors-sidebar li { display: flex; align-items: center; gap: 12px; background: var(--surface); padding: 12px; border-radius: 10px; font-size: 14px; }
 .actors-sidebar li::before { content: '👤'; font-size: 18px; }
+
+/* ---------- КОММЕНТАРИИ ---------- */
+.comments-section { margin-top: 30px; }
+.comments-section h3 { font-size: 20px; margin-bottom: 16px; }
+.comment-input-wrap { display: flex; gap: 10px; margin-bottom: 20px; }
+.comment-input-wrap input { flex: 1; background: var(--surface); border: 1px solid rgba(232,180,184,0.15); color: var(--text); padding: 12px 16px; border-radius: 10px; outline: none; }
+.comment-input-wrap input:focus { border-color: var(--accent); }
+.comments-list { display: flex; flex-direction: column; gap: 16px; }
+.comment-item { display: flex; gap: 12px; }
+.comment-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--accent-2); color: var(--bg); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; flex-shrink: 0; }
+.comment-body { flex: 1; }
+.comment-author { font-weight: 600; font-size: 14px; margin-bottom: 2px; }
+.comment-text { font-size: 14px; color: var(--text); line-height: 1.5; }
+.comment-date { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+/* ---------- ПОХОЖИЕ ВИДЕО ---------- */
+.similar-videos { margin-top: 50px; padding-top: 30px; border-top: 1px solid rgba(232,180,184,0.1); }
 
 /* ---------- ПРОФИЛЬ ---------- */
 .profile-card { background: var(--surface); border-radius: 16px; padding: 24px; display: flex; align-items: center; gap: 20px; margin-bottom: 24px; flex-wrap: wrap; }
@@ -128,10 +151,11 @@ button:hover { opacity: 0.85; }
 
 .footer { text-align: center; padding: 40px 20px; color: var(--muted); font-size: 13px; border-top: 1px solid rgba(232,180,184,0.08); margin-top: 60px; }
 
-@media (max-width: 900px) {
+@media (max-width: 1000px) {
   .header { flex-wrap: wrap; padding: 12px 16px; gap: 12px; }
   .search-wrap { order: 3; width: 100%; padding: 0; }
-  .nav { gap: 16px; }
+  .nav { gap: 12px; flex-wrap: wrap; }
   .grid { grid-template-columns: 1fr; }
   .video-actions { width: 100%; justify-content: space-between; }
+  .comment-input-wrap { flex-direction: column; }
 }
