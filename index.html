@@ -10,14 +10,11 @@
 </head>
 <body>
 
-  <!-- ШАПКА -->
   <header class="header">
     <a href="#" class="logo" onclick="showPage('home'); return false;">
       <svg class="logo-mark" viewBox="0 0 48 48" width="40" height="40">
         <circle cx="24" cy="24" r="22" fill="none" stroke="var(--accent)" stroke-width="2"/>
-        <text x="24" y="32" text-anchor="middle"
-              font-family="Cormorant Garamond, serif" font-size="24"
-              font-weight="700" fill="var(--accent-2)">V</text>
+        <text x="24" y="32" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="24" font-weight="700" fill="var(--accent-2)">V</text>
       </svg>
       <span class="logo-text">VELVET</span>
     </a>
@@ -28,21 +25,20 @@
 
     <nav class="nav">
       <a href="#" onclick="showPage('home'); return false;">Главная</a>
+      <a href="#" onclick="showPage('top'); return false;">Лучшее</a>
+      <a href="#" onclick="showPage('views'); return false;">Просматриваемое</a>
       <a href="#" onclick="showPage('favorites'); return false;">Избранное <span id="favCount" class="badge">0</span></a>
       <a href="#" onclick="showPage('profile'); return false;">Профиль</a>
     </nav>
   </header>
 
-  <!-- ГЛАВНАЯ -->
   <main id="page-home" class="page active">
     <section class="hero">
       <h1>Ночь начинается здесь</h1>
       <p>Отборное кино для взрослых. Только для 18+</p>
       <button class="random-btn" onclick="playRandom()">🎲 Случайное видео</button>
     </section>
-
     <section class="categories" id="categories"></section>
-
     <section class="catalog">
       <h2 id="catalogTitle">Все видео</h2>
       <div class="grid" id="grid"></div>
@@ -50,16 +46,40 @@
     </section>
   </main>
 
-  <!-- СТРАНИЦА ВИДЕО (как на YouTube) -->
+  <main id="page-top" class="page">
+    <h1 class="page-title">Лучшее</h1>
+    <div class="time-filters" id="topFilters">
+      <button class="filter-btn active" onclick="setTopTime('all')">За всё время</button>
+      <button class="filter-btn" onclick="setTopTime('month')">За месяц</button>
+      <button class="filter-btn" onclick="setTopTime('week')">За неделю</button>
+      <button class="filter-btn" onclick="setTopTime('today')">За сегодня</button>
+    </div>
+    <div class="grid" id="topGrid"></div>
+  </main>
+
+  <main id="page-views" class="page">
+    <h1 class="page-title">Просматриваемое</h1>
+    <div class="time-filters" id="viewsFilters">
+      <button class="filter-btn active" onclick="setViewsTime('all')">За всё время</button>
+      <button class="filter-btn" onclick="setViewsTime('month')">За месяц</button>
+      <button class="filter-btn" onclick="setViewsTime('week')">За неделю</button>
+      <button class="filter-btn" onclick="setViewsTime('today')">За сегодня</button>
+    </div>
+    <div class="grid" id="viewsGrid"></div>
+  </main>
+
+  <!-- СТРАНИЦА ВИДЕО -->
   <main id="page-video" class="page">
     <button class="back-btn" onclick="goBack()">← Назад в каталог</button>
     
     <div class="video-layout">
-      <!-- Левая часть: плеер и описание -->
       <div class="video-main">
+        <!-- Плеер с бейджем времени -->
         <div class="player-placeholder">
           <span>🎬 Здесь будет видеоплеер</span>
+          <div class="duration-badge" id="videoDuration">12:00</div>
         </div>
+        
         <h1 id="videoTitle" class="video-title"></h1>
         
         <div class="video-meta">
@@ -67,10 +87,9 @@
             <div class="studio-avatar" id="studioAvatar">S</div>
             <div>
               <div class="studio-name" id="videoStudio"></div>
-              <div class="video-views">Студия-производитель</div>
+              <div class="video-views" id="videoViewsText"></div>
             </div>
           </div>
-          
           <div class="video-actions">
             <button id="videoLikeBtn" class="action-btn" onclick="toggleRatingFromPage('like')">👍 Нравится</button>
             <button id="videoDislikeBtn" class="action-btn" onclick="toggleRatingFromPage('dislike')">👎 Не нравится</button>
@@ -82,24 +101,39 @@
           <h3>Описание</h3>
           <p id="videoDesc"></p>
         </div>
+
+        <!-- КОММЕНТАРИИ -->
+        <div class="comments-section">
+          <h3 id="commentsTitle">Комментарии (0)</h3>
+          <div class="comment-input-wrap">
+            <input type="text" id="commentInput" placeholder="Написать комментарий..." maxlength="200">
+            <button onclick="addComment()">Отправить</button>
+          </div>
+          <div id="commentsList" class="comments-list"></div>
+        </div>
+
       </div>
 
-      <!-- Правая часть: актёры -->
       <div class="video-sidebar">
         <h3>В ролях</h3>
         <ul id="videoActorsList" class="actors-sidebar"></ul>
       </div>
     </div>
+
+    <!-- ПОХОЖИЕ ВИДЕО (внизу) -->
+    <section class="similar-videos">
+      <h2>Похожие видео</h2>
+      <div class="grid" id="similarGrid"></div>
+    </section>
+
   </main>
 
-  <!-- ИЗБРАННОЕ -->
   <main id="page-favorites" class="page">
     <h1 class="page-title">Избранное</h1>
     <div class="grid" id="favGrid"></div>
     <p id="favEmpty" class="empty">Пока пусто. Добавляй видео сердечком ❤️</p>
   </main>
 
-  <!-- ПРОФИЛЬ -->
   <main id="page-profile" class="page">
     <h1 class="page-title">Профиль</h1>
     <div class="profile-card">
