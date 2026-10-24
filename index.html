@@ -10,6 +10,18 @@
 </head>
 <body>
 
+  <!-- ЭКРАН 18+ -->
+  <div id="ageGate" class="age-gate">
+    <div class="age-gate-content">
+      <h1 class="age-title">VELVET</h1>
+      <p class="age-subtitle">Для входа на сайт вам должно быть 18 лет</p>
+      <div class="age-buttons">
+        <button class="age-btn-yes" onclick="enterSite()">Мне есть 18 лет</button>
+        <button class="age-btn-no" onclick="leaveSite()">Мне нет 18</button>
+      </div>
+    </div>
+  </div>
+
   <!-- ШАПКА С ИКОНКАМИ -->
   <header class="header">
     <div class="header-left">
@@ -41,43 +53,35 @@
   </header>
 
   <main id="page-home" class="page active">
-    
-    <!-- БАННЕР -->
     <section class="hero-banner">
       <div class="banner-side banner-left">
         <img src="left.jpg" alt="Left Model" onerror="this.style.display='none'">
       </div>
-      
       <div class="hero-content">
         <h1>VELVET</h1>
         <p>Эстетика ночи. Кино для взрослых.</p>
         <button class="random-btn" onclick="playRandom()">🎲 Случайное видео</button>
       </div>
-
       <div class="banner-side banner-right">
         <img src="right.jpg" alt="Right Model" onerror="this.style.display='none'">
       </div>
     </section>
 
-    <!-- КАТЕГОРИИ И ПОИСК (Поиск теперь снизу) -->
     <section class="controls-section">
       <button class="categories-btn" onclick="openCategoriesModal()">
         <span>🗂️ Все категории</span>
       </button>
-      
       <div class="search-wrap">
         <input type="text" id="searchInput" placeholder="Поиск видео…" oninput="renderCatalog()">
       </div>
     </section>
 
-    <!-- СОРТИРОВКА -->
     <section class="sort-panel">
       <div class="sort-tabs">
         <button id="tab-all" class="sort-tab active" onclick="setSortMode('all')">Все видео</button>
         <button id="tab-top" class="sort-tab" onclick="setSortMode('top')">Лучшее</button>
         <button id="tab-views" class="sort-tab" onclick="setSortMode('views')">Просматриваемое</button>
       </div>
-
       <div class="time-dropdown" id="timeDropdown" style="display: none;">
         <button class="dropdown-btn" onclick="toggleDropdown()">
           <span id="timeLabel">За всё время</span> ▼
@@ -109,7 +113,6 @@
     <button class="back-btn" onclick="goBack()">← Назад в каталог</button>
     <div class="video-layout">
       <div class="video-main">
-        
         <div class="custom-player" id="playerContainer">
           <video id="videoPlayer" poster="https://picsum.photos/1280/720?grayscale">
             Ваш браузер не поддерживает видео.
@@ -210,6 +213,11 @@
 
   <footer class="footer">
     <p>© 2026 VELVET · 18+ · Витрина. Все видео размещены на сторонних ресурсах.</p>
+    <div class="footer-links">
+      <a href="about.html">О сайте</a>
+      <a href="copyright.html">Правообладателям</a>
+      <a href="terms.html">Соглашение</a>
+    </div>
   </footer>
 
   <script src="app.js"></script>
