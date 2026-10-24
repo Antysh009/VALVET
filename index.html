@@ -10,7 +10,7 @@
 </head>
 <body>
 
-  <!-- ШАПКА (Лого слева, Поиск по центру, Меню справа) -->
+  <!-- ШАПКА (Лого слева, Меню справа) -->
   <header class="header">
     <div class="header-left">
       <a href="#" class="logo" onclick="showPage('home'); return false;">
@@ -20,12 +20,6 @@
         </svg>
         <span class="logo-text">VELVET</span>
       </a>
-    </div>
-
-    <div class="header-center">
-      <div class="search-wrap">
-        <input type="text" id="searchInput" placeholder="Поиск видео…" oninput="renderCatalog()">
-      </div>
     </div>
 
     <div class="header-right">
@@ -39,7 +33,7 @@
 
   <main id="page-home" class="page active">
     
-    <!-- БАННЕР С КАРТИНКАМИ ПО БОКАМ -->
+    <!-- БАННЕР -->
     <section class="hero-banner">
       <div class="banner-side banner-left">
         <img src="left.jpg" alt="Left Model" onerror="this.style.display='none'">
@@ -56,12 +50,19 @@
       </div>
     </section>
 
-    <section class="top-controls">
+    <!-- ПАНЕЛЬ КАТЕГОРИЙ И ПОИСКА -->
+    <section class="controls-section">
       <button class="categories-btn" onclick="openCategoriesModal()">
         <span>🗂️ Все категории</span>
       </button>
+      
+      <!-- ПОИСК ПЕРЕЕХАЛ СЮДА -->
+      <div class="search-wrap">
+        <input type="text" id="searchInput" placeholder="Поиск видео…" oninput="renderCatalog()">
+      </div>
     </section>
 
+    <!-- СОРТИРОВКА -->
     <section class="sort-panel">
       <div class="sort-tabs">
         <button id="tab-all" class="sort-tab active" onclick="setSortMode('all')">Все видео</button>
@@ -182,6 +183,7 @@
       <input type="text" id="username" placeholder="Твоё имя / ник" maxlength="30">
       <button onclick="saveProfile()">Сохранить</button>
     </div>
+    
     <div class="profile-block">
       <h2>Любимые актёры</h2>
       <div class="actor-input">
@@ -190,9 +192,11 @@
       </div>
       <ul id="actorsList" class="actors-list"></ul>
     </div>
+
     <div class="profile-block">
       <h2>Твои оценки</h2>
-      <div id="ratingsList" class="ratings"></div>
+      <div class="grid" id="ratingsGrid"></div>
+      <p id="ratingsEmpty" class="empty" style="display: none;">Ты пока не оценил ни одного видео</p>
     </div>
   </main>
 
