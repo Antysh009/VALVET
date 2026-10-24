@@ -54,13 +54,18 @@ h1, h2, .logo-text, .page-title { font-family: 'Cormorant Garamond', serif; lett
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
 .card { background: var(--surface); border-radius: 14px; overflow: hidden; cursor: pointer; transition: transform .2s, box-shadow .2s; display: flex; flex-direction: column; }
 .card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(200,16,46,0.25); }
-.card-cover { width: 100%; aspect-ratio: 16/9; background: linear-gradient(135deg, #2a1a1f, #1a0f13); display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 14px; position: relative; }
+
+/* Стили для картинок обложек */
+.card-cover { width: 100%; aspect-ratio: 16/9; background: linear-gradient(135deg, #2a1a1f, #1a0f13); display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 14px; position: relative; overflow: hidden; }
+.card-cover img { width: 100%; height: 100%; object-fit: cover; transition: transform .3s; }
+.card:hover .card-cover img { transform: scale(1.05); }
+
 .card-body { padding: 16px; flex: 1; display: flex; flex-direction: column; }
 .card-title { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
 .card-cat { font-size: 13px; color: var(--accent-2); margin-bottom: 8px; }
 .card-meta { font-size: 12px; color: var(--muted); margin-bottom: 12px; display: flex; gap: 10px; }
 .card-actions { display: flex; gap: 8px; margin-top: auto; }
-.duration-badge { position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.8); color: #fff; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: 600; }
+.duration-badge { position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.8); color: #fff; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: 600; z-index: 2; }
 
 .action-btn { background: var(--bg); border: 1px solid rgba(232,180,184,0.1); color: var(--muted); padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 13px; transition: all .2s; }
 .action-btn:hover { background: rgba(232,180,184,0.1); color: var(--text); }
@@ -78,11 +83,15 @@ h1, h2, .logo-text, .page-title { font-family: 'Cormorant Garamond', serif; lett
 .modal-close { position: absolute; top: 20px; right: 20px; background: rgba(0,0,0,0.5); color: #fff; border: none; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; z-index: 10; font-size: 16px; }
 .modal-close:hover { background: var(--accent); }
 .modal-title { font-size: 32px; margin-bottom: 24px; font-family: 'Cormorant Garamond', serif; }
+
+/* Сетка категорий */
 .cat-grid-modal { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
-.cat-card { height: 140px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 600; color: #fff; cursor: pointer; transition: transform .2s, filter .2s; text-shadow: 0 2px 4px rgba(0,0,0,0.5); position: relative; overflow: hidden; }
+.cat-card { height: 140px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 600; color: #fff; cursor: pointer; transition: transform .2s, filter .2s; text-shadow: 0 2px 4px rgba(0,0,0,0.5); position: relative; overflow: hidden; background-size: cover; background-position: center; }
 .cat-card:hover { transform: scale(1.05); filter: brightness(1.2); }
-.cat-card::after { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.3); }
+.cat-card::after { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.4); }
 .cat-card span { position: relative; z-index: 2; }
+
+/* Градиенты (на случай если картинки не загрузятся) */
 .cat-bg-Романтика { background: linear-gradient(135deg, #ff416c, #ff4b2b); }
 .cat-bg-Драма { background: linear-gradient(135deg, #3a1c71, #d76d77); }
 .cat-bg-Классика { background: linear-gradient(135deg, #000000, #434343); }
@@ -145,170 +154,40 @@ button:hover { opacity: 0.85; }
 .footer { text-align: center; padding: 40px 20px; color: var(--muted); font-size: 13px; border-top: 1px solid rgba(232,180,184,0.08); margin-top: 60px; }
 
 /* ========================================================= */
-/* ---------- КАСТОМНЫЙ ВИДЕОПЛЕЕР (САМОЕ ВАЖНОЕ) ---------- */
+/* ---------- КАСТОМНЫЙ ВИДЕОПЛЕЕР ---------- */
 /* ========================================================= */
+.custom-player { position: relative; width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 16px; overflow: hidden; margin-bottom: 20px; border: 1px solid rgba(232,180,184,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+.custom-player video { width: 100%; height: 100%; object-fit: contain; display: block; }
+.center-play-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80px; height: 80px; background: rgba(200,16,46,0.8); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; cursor: pointer; transition: all .3s; z-index: 10; padding-left: 5px; }
+.center-play-btn:hover { background: var(--accent); transform: translate(-50%, -50%) scale(1.1); }
+.center-play-btn.hidden { opacity: 0; pointer-events: none; }
+.player-controls { position: absolute; bottom: 0; left: 0; width: 100%; background: linear-gradient(to top, rgba(13,13,15,0.95), transparent); padding: 40px 20px 15px; opacity: 0; transition: opacity .3s; z-index: 20; }
+.custom-player:hover .player-controls, .custom-player.show-controls .player-controls { opacity: 1; }
+.progress-bar-wrap { width: 100%; padding: 10px 0; cursor: pointer; margin-bottom: 5px; }
+.progress-bg { width: 100%; height: 5px; background: rgba(255,255,255,0.2); border-radius: 5px; position: relative; transition: height .2s; }
+.progress-bar-wrap:hover .progress-bg { height: 8px; }
+.progress-fill { height: 100%; background: var(--accent); width: 0%; border-radius: 5px; position: relative; }
+.progress-fill::after { content: ''; position: absolute; right: -6px; top: 50%; transform: translateY(-50%); width: 12px; height: 12px; background: #fff; border-radius: 50%; opacity: 0; transition: opacity .2s; }
+.progress-bar-wrap:hover .progress-fill::after { opacity: 1; }
+.controls-row { display: flex; justify-content: space-between; align-items: center; }
+.controls-left, .controls-right { display: flex; align-items: center; gap: 15px; }
+.control-btn { background: transparent; border: none; color: #fff; font-size: 16px; cursor: pointer; padding: 5px; transition: color .2s, transform .1s; display: flex; align-items: center; justify-content: center; }
+.control-btn:hover { color: var(--accent-2); }
+.control-btn:active { transform: scale(0.9); }
+.time-display { font-size: 13px; color: #fff; font-family: monospace; margin-left: 10px; }
+.volume-wrap { display: flex; align-items: center; gap: 5px; }
+#volumeSlider { width: 80px; cursor: pointer; accent-color: var(--accent); height: 4px; }
 
-.custom-player {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16/9;
-  background: #000;
-  border-radius: 16px;
-  overflow: hidden;
-  margin-bottom: 20px;
-  border: 1px solid rgba(232,180,184,0.1);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-  group: player;
-}
-
-.custom-player video {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  display: block;
-}
-
-/* Центральная кнопка Play */
-.center-play-btn {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 80px;
-  height: 80px;
-  background: rgba(200,16,46,0.8);
-  color: #fff;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 32px;
-  cursor: pointer;
-  transition: all .3s;
-  z-index: 10;
-  padding-left: 5px; /* Чтобы треугольник был по центру */
-}
-.center-play-btn:hover {
-  background: var(--accent);
-  transform: translate(-50%, -50%) scale(1.1);
-}
-.center-play-btn.hidden {
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* Панель управления */
-.player-controls {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background: linear-gradient(to top, rgba(13,13,15,0.95), transparent);
-  padding: 40px 20px 15px;
-  opacity: 0;
-  transition: opacity .3s;
-  z-index: 20;
-}
-.custom-player:hover .player-controls,
-.custom-player.show-controls .player-controls {
-  opacity: 1;
-}
-
-/* Полоса прогресса */
-.progress-bar-wrap {
-  width: 100%;
-  padding: 10px 0;
-  cursor: pointer;
-  margin-bottom: 5px;
-}
-.progress-bg {
-  width: 100%;
-  height: 5px;
-  background: rgba(255,255,255,0.2);
-  border-radius: 5px;
-  position: relative;
-  transition: height .2s;
-}
-.progress-bar-wrap:hover .progress-bg {
-  height: 8px;
-}
-.progress-fill {
-  height: 100%;
-  background: var(--accent);
-  width: 0%;
-  border-radius: 5px;
-  position: relative;
-}
-.progress-fill::after {
-  content: '';
-  position: absolute;
-  right: -6px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 12px;
-  height: 12px;
-  background: #fff;
-  border-radius: 50%;
-  opacity: 0;
-  transition: opacity .2s;
-}
-.progress-bar-wrap:hover .progress-fill::after {
-  opacity: 1;
-}
-
-/* Нижний ряд кнопок */
-.controls-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.controls-left, .controls-right {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.control-btn {
-  background: transparent;
-  border: none;
-  color: #fff;
-  font-size: 16px;
-  cursor: pointer;
-  padding: 5px;
-  transition: color .2s, transform .1s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.control-btn:hover {
-  color: var(--accent-2);
-}
-.control-btn:active {
-  transform: scale(0.9);
-}
-
-.time-display {
-  font-size: 13px;
-  color: #fff;
-  font-family: monospace;
-  margin-left: 10px;
-}
-
-/* Громкость */
-.volume-wrap {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-#volumeSlider {
-  width: 80px;
-  cursor: pointer;
-  accent-color: var(--accent);
-  height: 4px;
-}
-
-/* На мобилках панель всегда видна */
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
+  .header { flex-wrap: wrap; padding: 12px 16px; gap: 12px; }
+  .search-wrap { order: 3; width: 100%; padding: 0; }
+  .nav { gap: 12px; flex-wrap: wrap; }
+  .grid { grid-template-columns: 1fr; }
+  .sort-panel { flex-direction: column; align-items: flex-start; }
+  .sort-tab { font-size: 18px; }
+  .video-actions { width: 100%; justify-content: space-between; }
+  .comment-input-wrap { flex-direction: column; }
+  .cat-grid-modal { grid-template-columns: 1fr 1fr; }
   .player-controls { opacity: 1; background: linear-gradient(to top, rgba(13,13,15,1), transparent); }
   .center-play-btn { width: 60px; height: 60px; font-size: 24px; }
   .control-btn { font-size: 14px; }
