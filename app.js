@@ -120,4 +120,256 @@ window.addEventListener('hashchange', checkHash);
 // ---------- КОММЕНТАРИИ ----------
 function renderComments() {
   const list = document.getElementById('commentsList');
-  const title =
+  const title = document.getElementById('commentsTitle');
+  
+  const comments = allComments[currentVideoId] || [];
+  title.textContent = `Комментарии (${comments.length})`;
+
+  if (comments.length === 0) {
+    list.innerHTML = '<p style="color: var(--muted); font-size: 14px;">Пока нет комментариев. Будь первым!</p>';
+    return;
+  }
+
+  list.innerHTML = comments.map(c => `
+    <div class="comment-item">
+      <div class="comment-avatar">${c.author.charAt(0).toUpperCase()}</div>
+      <div class="comment-body">
+        <div class="comment-author">${c.author}</div>
+        <div class="comment-text">${c.text}</div>
+        <div class="comment-date">${timeAgo(c.date)}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function addComment() {
+  const input = document.getElementById('commentInput');
+  const text = input.value.trim();
+  if (!text) return;
+
+  const authorName = profile.name || 'Гость';
+  
+  if (!allComments[currentVideoId]) allComments[currentVideoId] = [];
+  
+  allComments[currentVideoId].unshift({
+    author: authorName,
+    text: text,
+    date: new Date().toISOString().split('T')[0] // Текущая дата
+  });
+
+  store.set('comments', allComments);
+  input.value = '';
+  renderComments();
+}
+
+// ---------- ФИЛЬТРЫ ВРЕМЕНИ (ЛУЧШЕЕ И ПРОСМОТРЫ) ----------
+function setTopTime(time) {
+  topTime = time;
+  document.querySelectorAll('#topFilters .filter-btn').forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
+  renderTop();
+}
+
+function setViewsTime(time) {
+  viewsTime = time;
+  document.querySelectorAll('#viewsFilters .filter-btn').forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
+  renderViews();
+}
+
+function isDateInPeriod(dateStr, period) {
+  if (period === 'all') return true;
+  const videoDate = new Date(dateStr);
+  const now = new Date();
+  const diffTime = Math.abs(now - videoDate);
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+  if (period === 'today') return diffDays <= 1;
+  if (period === 'week') return diffDays <= 7;
+  if (period === 'month') return diffDays <= 30;
+  return true;
+}
+
+function renderTop() {
+  const grid = document.getElementById('topGrid');
+  let list = VIDEOS.filter(v => isDateInPeriod(v.date, topTime));
+  list.sort((a, b) => b.likes - a.likes);
+  grid.innerHTML = list.map(v => cardHTML(v)).join('');
+}
+
+function renderViews() {
+  const grid = document.getElementById('viewsGrid');
+  let list = VIDEOS.filter(v => isDateInPeriod(v.date, viewsTime));
+  list.sort((a, b) => {
+    const viewsA = a.views + (videoViews[a.id] || 0);
+    const viewsB = b.views + (videoViews[b.id] || 0);
+    return viewsB - viewsA;
+  });
+  grid.innerHTML = list.map(v => cardHTML(v)).join('');
+}
+
+// ---------- КАТАЛОГ И КАРТОЧКИ ----------
+function renderCategories() {
+  const box = document.getElementById('categories');
+  box.innerHTML = CATEGORIES.map(c =>
+    `<button class="cat-btn ${c === currentCat ? 'active' : ''}" onclick="setCategory('${c}')">${c}</button>`
+  ).join('');
+}
+
+function setCategory(cat) {
+  currentCat = cat;
+  renderCategories();
+  renderCatalog();
+}
+
+function cardHTML(v) {
+  const isFav = favorites.includes(v.id);
+  const userRating = ratings[v.id] || null;
+  const totalViews = v.views + (videoViews[v.id] || 0);
+  
+  return `
+    <div class="card" onclick="openVideoPage(${v.id})">
+      <div class="card-cover">
+        <button class="fav-btn-float ${isFav ? 'active-fav' : ''}" onclick="event.stopPropagation(); toggleFav(${v.id})">
+          ${isFav ? '❤️' : '🤍'}
+        </button>
+        Обложка
+        <div class="duration-badge">${v.duration}</div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">${v.title}</div>
+        <div class="card-cat">${v.cat}</div>
+        <div class="card-meta">
+          <span>${totalViews.toLocaleString('ru-RU')} просмотров</span>
+          <span>${timeAgo(v.date)}</span>
+        </div>
+        <div class="card-actions" onclick="event.stopPropagation()">
+          <button class="action-btn ${userRating === 'like' ? 'active-like' : ''}" onclick="toggleRating(${v.id}, 'like')">👍</button>
+          <button class="action-btn ${userRating === 'dislike' ? 'active-dislike' : ''}" onclick="toggleRating(${v.id}, 'dislike')">👎</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderCatalog() {
+  const grid  = document.getElementById('grid');
+  const query = document.getElementById('searchInput').value.toLowerCase().trim();
+  const title = document.getElementById('catalogTitle');
+  const empty = document.getElementById('emptyMsg');
+
+  let list = VIDEOS;
+  if (currentCat !== 'Все') list = list.filter(v => v.cat === currentCat);
+  if (query) list = list.filter(v => v.title.toLowerCase().includes(query));
+
+  title.textContent = currentCat === 'Все' ? 'Все видео' : currentCat;
+
+  if (!list.length) { grid.innerHTML = ''; empty.style.display = 'block'; return; }
+  empty.style.display = 'none';
+  grid.innerHTML = list.map(v => cardHTML(v)).join('');
+}
+
+// ---------- ОЦЕНКИ И ИЗБРАННОЕ ----------
+function toggleRating(id, type) {
+  if (ratings[id] === type) delete ratings[id];
+  else ratings[id] = type;
+  store.set('ratings', ratings);
+  
+  renderCatalog(); 
+  if (currentVideoId === id) updateVideoPageButtons();
+  if (document.getElementById('page-favorites').classList.contains('active')) renderFavorites();
+}
+
+function toggleFav(id) {
+  const i = favorites.indexOf(id);
+  if (i === -1) favorites.push(id);
+  else favorites.splice(i, 1);
+  store.set('favorites', favorites);
+  
+  updateFavCount();
+  renderCatalog();
+  if (currentVideoId === id) updateVideoPageButtons();
+  if (document.getElementById('page-favorites').classList.contains('active')) renderFavorites();
+}
+
+function toggleRatingFromPage(type) { toggleRating(currentVideoId, type); }
+function toggleFavFromPage() { toggleFav(currentVideoId); }
+
+function updateVideoPageButtons() {
+  if (!currentVideoId) return;
+  const isFav = favorites.includes(currentVideoId);
+  const userRating = ratings[currentVideoId] || null;
+
+  document.getElementById('videoLikeBtn').className = 'action-btn ' + (userRating === 'like' ? 'active-like' : '');
+  document.getElementById('videoDislikeBtn').className = 'action-btn ' + (userRating === 'dislike' ? 'active-dislike' : '');
+  document.getElementById('videoFavBtn').className = 'action-btn ' + (isFav ? 'active-fav' : '');
+  document.getElementById('videoFavBtn').textContent = isFav ? '❤️ В избранном' : '🤍 В избранное';
+}
+
+function updateFavCount() {
+  document.getElementById('favCount').textContent = favorites.length;
+}
+
+function renderFavorites() {
+  const grid  = document.getElementById('favGrid');
+  const empty = document.getElementById('favEmpty');
+  const list  = VIDEOS.filter(v => favorites.includes(v.id));
+  if (!list.length) { grid.innerHTML = ''; empty.style.display = 'block'; return; }
+  empty.style.display = 'none';
+  grid.innerHTML = list.map(v => cardHTML(v)).join('');
+}
+
+function playRandom() {
+  const randomIndex = Math.floor(Math.random() * VIDEOS.length);
+  openVideoPage(VIDEOS[randomIndex].id);
+}
+
+// ---------- ПРОФИЛЬ ----------
+function renderProfile() {
+  document.getElementById('username').value = profile.name || '';
+  document.getElementById('avatar').textContent = (profile.name || '?').charAt(0).toUpperCase();
+
+  const actorsList = document.getElementById('actorsList');
+  actorsList.innerHTML = profile.actors.map((a, i) =>
+    `<li>${a} <span onclick="removeActor(${i})">✕</span></li>`
+  ).join('');
+
+  const ratingsList = document.getElementById('ratingsList');
+  const entries = Object.entries(ratings);
+  if (!entries.length) { ratingsList.innerHTML = '<p class="empty">Пока нет оценок</p>'; return; }
+  
+  ratingsList.innerHTML = entries.map(([id, val]) => {
+    const v = VIDEOS.find(x => x.id == id);
+    if (!v) return '';
+    const icon = val === 'like' ? '<span class="rating-like">👍 Нравится</span>' : '<span class="rating-dislike">👎 Не нравится</span>';
+    return `<div class="rating-row"><span>${v.title}</span>${icon}</div>`;
+  }).join('');
+}
+
+function saveProfile() {
+  profile.name = document.getElementById('username').value.trim();
+  store.set('profile', profile);
+  renderProfile();
+}
+
+function addActor() {
+  const input = document.getElementById('actorInput');
+  const name = input.value.trim();
+  if (!name || profile.actors.includes(name)) return;
+  profile.actors.push(name);
+  store.set('profile', profile);
+  input.value = '';
+  renderProfile();
+}
+
+function removeActor(i) {
+  profile.actors.splice(i, 1);
+  store.set('profile', profile);
+  renderProfile();
+}
+
+// ---------- СТАРТ ----------
+renderCategories();
+renderCatalog();
+updateFavCount();
+checkHash();
