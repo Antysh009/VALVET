@@ -31,8 +31,6 @@
   </header>
 
   <main id="page-home" class="page active">
-    
-    <!-- НОВЫЙ БЛОК СВЕРХУ (вместо заголовка) -->
     <section class="top-controls">
       <button class="random-btn" onclick="playRandom()">🎲 Случайное видео</button>
       <button class="categories-btn" onclick="openCategoriesModal()">
@@ -40,7 +38,6 @@
       </button>
     </section>
 
-    <!-- ПАНЕЛЬ СОРТИРОВКИ -->
     <section class="sort-panel">
       <div class="sort-tabs">
         <button id="tab-all" class="sort-tab active" onclick="setSortMode('all')">Все видео</button>
@@ -67,14 +64,11 @@
     </section>
   </main>
 
-  <!-- МОДАЛЬНОЕ ОКНО ВЫБОРА КАТЕГОРИЙ -->
   <div id="categoriesModal" class="modal">
     <div class="modal-content categories-modal-content">
       <button class="modal-close" onclick="closeCategoriesModal()">✕</button>
       <h2 class="modal-title">Категории</h2>
-      <div class="cat-grid-modal" id="catGridModal">
-        <!-- Карточки категорий будут генерироваться через JS -->
-      </div>
+      <div class="cat-grid-modal" id="catGridModal"></div>
     </div>
   </div>
 
@@ -83,10 +77,13 @@
     <button class="back-btn" onclick="goBack()">← Назад в каталог</button>
     <div class="video-layout">
       <div class="video-main">
-        <div class="player-placeholder">
-          <span>🎬 Здесь будет видеоплеер</span>
-          <div class="duration-badge" id="videoDuration">12:00</div>
+        <!-- НАСТОЯЩИЙ ВИДЕОПЛЕЕР -->
+        <div class="player-wrapper">
+          <video id="videoPlayer" class="video-player" controls poster="https://via.placeholder.com/1280x720/1A1A1F/C8102E?text=VELVET">
+            Ваш браузер не поддерживает видео.
+          </video>
         </div>
+        
         <h1 id="videoTitle" class="video-title"></h1>
         <div class="video-meta">
           <div class="studio-info">
