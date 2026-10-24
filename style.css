@@ -12,34 +12,16 @@
 body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; }
 h1, h2, .logo-text, .page-title { font-family: 'Cormorant Garamond', serif; letter-spacing: 0.02em; }
 
-/* ---------- ШАПКА (ЛОГОТИП ПО ЦЕНТРУ) ---------- */
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 32px;
-  background: rgba(13,13,15,0.95); 
-  backdrop-filter: blur(12px);
-  position: sticky; 
-  top: 0; 
-  z-index: 100;
-  border-bottom: 1px solid rgba(232,180,184,0.1);
-}
+/* ---------- ШАПКА ---------- */
+.header { display: flex; align-items: center; justify-content: space-between; padding: 16px 32px; background: rgba(13,13,15,0.95); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgba(232,180,184,0.1); }
 .header-left, .header-right { flex: 1; display: flex; align-items: center; }
 .header-right { justify-content: flex-end; }
 .header-center { flex: 0 0 auto; display: flex; justify-content: center; }
-
 .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
 .logo-text { color: var(--text); font-size: 28px; font-weight: 700; letter-spacing: 0.2em; }
-
 .search-wrap { width: 100%; max-width: 300px; }
-.search-wrap input {
-  background: var(--surface); border: 1px solid rgba(232,180,184,0.15);
-  color: var(--text); padding: 10px 20px; border-radius: 999px;
-  width: 100%; outline: none; transition: border-color .2s, box-shadow .2s; font-size: 14px;
-}
+.search-wrap input { background: var(--surface); border: 1px solid rgba(232,180,184,0.15); color: var(--text); padding: 10px 20px; border-radius: 999px; width: 100%; outline: none; transition: border-color .2s, box-shadow .2s; font-size: 14px; }
 .search-wrap input:focus { border-color: var(--accent); box-shadow: 0 0 15px rgba(200,16,46,0.2); }
-
 .nav { display: flex; gap: 20px; }
 .nav a { color: var(--muted); text-decoration: none; font-size: 15px; transition: color .2s; }
 .nav a:hover { color: var(--accent-2); }
@@ -50,7 +32,7 @@ h1, h2, .logo-text, .page-title { font-family: 'Cormorant Garamond', serif; lett
 .page.active { display: block; }
 .page-title { font-size: 48px; margin-bottom: 24px; }
 
-/* ---------- БАННЕР (ИСПРАВЛЕНА КАРТИНКА) ---------- */
+/* ---------- НОВЫЙ БАННЕР (ФОТО ПО БОКАМ) ---------- */
 .hero-banner {
   position: relative;
   width: 100%;
@@ -58,28 +40,47 @@ h1, h2, .logo-text, .page-title { font-family: 'Cormorant Garamond', serif; lett
   border-radius: 20px;
   overflow: hidden;
   margin-bottom: 30px;
+  background: linear-gradient(to right, #1A1A1F, #2a1a1f, #1A1A1F);
   display: flex;
   align-items: center;
-  justify-content: center;
-  
-  /* Новая, более надежная ссылка на девушку в купальнике */
-  background-image: url('https://images.unsplash.com/photo-1583241475880-083f84372725?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');
-  
-  background-size: cover;
-  background-position: center 30%;
-  background-color: #2a1a1f; /* Запасной цвет, если картинка не загрузится */
+  justify-content: space-between; /* Раздвигает элементы по краям */
 }
-.hero-banner::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(13,13,15,0.95) 0%, rgba(13,13,15,0.3) 100%);
+
+/* Боковые блоки с картинками */
+.banner-side {
+  height: 100%;
+  width: 25%; /* Ширина боковой колонки */
+  min-width: 200px;
+  position: relative;
+  overflow: hidden;
 }
+.banner-side img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Делаем картинки немного затемненными по краям */
+  opacity: 0.8;
+  transition: opacity .3s;
+}
+.banner-side:hover img { opacity: 1; }
+
+/* Градиенты, чтобы картинки плавно переходили в центр */
+.banner-left { 
+  -webkit-mask-image: linear-gradient(to right, black 50%, transparent 100%);
+  mask-image: linear-gradient(to right, black 50%, transparent 100%);
+}
+.banner-right { 
+  -webkit-mask-image: linear-gradient(to left, black 50%, transparent 100%);
+  mask-image: linear-gradient(to left, black 50%, transparent 100%);
+}
+
+/* Центральный контент */
 .hero-content {
   position: relative;
   z-index: 2;
   text-align: center;
   padding: 20px;
+  flex: 1;
 }
 .hero-content h1 {
   font-size: 72px;
@@ -137,12 +138,7 @@ h1, h2, .logo-text, .page-title { font-family: 'Cormorant Garamond', serif; lett
 .card-meta { font-size: 12px; color: var(--muted); margin-bottom: 12px; display: flex; gap: 10px; }
 .card-actions { display: flex; gap: 8px; margin-top: auto; }
 
-/* Кнопки лайков с цифрами */
-.action-btn { 
-  background: var(--bg); border: 1px solid rgba(232,180,184,0.1); color: var(--muted); 
-  padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 13px; 
-  transition: all .2s; display: flex; align-items: center; gap: 6px; 
-}
+.action-btn { background: var(--bg); border: 1px solid rgba(232,180,184,0.1); color: var(--muted); padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 13px; transition: all .2s; display: flex; align-items: center; gap: 6px; }
 .action-btn:hover { background: rgba(232,180,184,0.1); color: var(--text); }
 .action-btn.active-like { color: #4ade80; border-color: #4ade80; }
 .action-btn.active-dislike { color: var(--accent); border-color: var(--accent); }
@@ -255,8 +251,12 @@ button:hover { opacity: 0.85; }
   .header-center { order: -1; margin-bottom: 10px; }
   .search-wrap { max-width: 100%; }
   .nav { gap: 20px; justify-content: center; }
-  .hero-banner { height: 300px; }
+  
+  /* На мобилках прячем боковые картинки */
+  .banner-side { display: none; } 
+  .hero-banner { height: 300px; background: linear-gradient(135deg, #1A1A1F, #2a1a1f); justify-content: center; }
   .hero-content h1 { font-size: 48px; }
+
   .grid { grid-template-columns: 1fr; }
   .sort-panel { flex-direction: column; align-items: flex-start; }
   .sort-tab { font-size: 18px; }
